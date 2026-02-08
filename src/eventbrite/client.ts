@@ -112,8 +112,18 @@ export class EventbriteClient {
   }
 
   async createEvent(data: any) {
-    return this.post<any>('/events/', {
-      event: data
+    // Events must be created under an organization
+    // The organization_id should be in the data
+    const organizationId = data.organization_id;
+    if (!organizationId) {
+      throw new Error('organization_id is required to create an event');
+    }
+    
+    // Remove organization_id from event data before sending to API
+    const { organization_id, ...eventData } = data;
+    
+    return this.post<any>(`/organizations/${organizationId}/events/`, {
+      event: eventData
     });
   }
 

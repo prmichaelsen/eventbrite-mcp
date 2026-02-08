@@ -13,6 +13,7 @@ import { CreateEventTool } from './tools/create-event.js';
 import { ListAttendeesTool } from './tools/list-attendees.js';
 import { CreateTicketClassTool } from './tools/create-ticket-class.js';
 import { ListOrganizationsTool } from './tools/list-organizations.js';
+import { GetApiDocsTool } from './tools/get-api-docs.js';
 import { logger } from './utils/logger.js';
 import { isMCPErrorResponse, formatErrorForDisplay } from './utils/mcp-error-handler.js';
 
@@ -75,6 +76,7 @@ class EventbriteMCPServer {
     this.tools.set('create_event', new CreateEventTool(this.eventbriteClient));
     this.tools.set('list_attendees', new ListAttendeesTool(this.eventbriteClient));
     this.tools.set('create_ticket_class', new CreateTicketClassTool(this.eventbriteClient));
+    this.tools.set('get_api_docs', new GetApiDocsTool());
   }
 
   private setupHandlers(): void {
