@@ -4,9 +4,7 @@
   "description": "Eventbrite MCP server providing event management and ticketing capabilities",
   "main": "dist/server.js",
   "type": "module",
-  "bin": {
-    "eventbrite-mcp": "./dist/server.js"
-  },
+  "bin": "./dist/server.js",
   "scripts": {
     "build": "node esbuild.build.js",
     "watch": "node esbuild.watch.js",
