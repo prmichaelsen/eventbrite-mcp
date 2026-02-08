@@ -1,0 +1,670 @@
+# Eventbrite MCP Server - Development Progress
+
+version: "1.0"
+last_updated: "2026-02-08"
+
+## Project Overview
+project:
+  name: "Eventbrite MCP Server"
+  description: "Model Context Protocol server for Eventbrite API v3"
+  repository: "eventbrite-mcp"
+  base_url: "https://www.eventbriteapi.com/v3"
+
+## Development Phases
+
+phases:
+  - name: "Phase 1: Core Event Management"
+    status: "in_progress"
+    priority: "high"
+    tools:
+      - create_event
+      - get_event
+      - update_event
+      - list_events
+      - publish_event
+      - delete_event
+      - create_ticket_class
+      - list_attendees
+    
+  - name: "Phase 2: Ticketing & Orders"
+    status: "not_started"
+    priority: "high"
+    tools:
+      - get_ticket_class
+      - update_ticket_class
+      - list_ticket_classes
+      - create_discount
+      - get_order
+      - list_orders
+      - get_attendee
+    
+  - name: "Phase 3: Venue & Organization"
+    status: "not_started"
+    priority: "medium"
+    tools:
+      - create_venue
+      - get_venue
+      - update_venue
+      - list_venues
+      - get_organization
+      - list_organizations
+      - list_organization_members
+    
+  - name: "Phase 4: Content & Media"
+    status: "not_started"
+    priority: "medium"
+    tools:
+      - upload_media
+      - get_media
+      - set_structured_content
+      - get_structured_content
+      - update_display_settings
+    
+  - name: "Phase 5: Advanced Features"
+    status: "not_started"
+    priority: "low"
+    tools:
+      - create_webhook
+      - list_webhooks
+      - delete_webhook
+      - create_inventory_tier
+      - create_seat_map
+      - create_event_schedule
+
+## Tool Status
+
+### Event Management
+tools:
+  create_event:
+    status: "in_progress"
+    priority: "high"
+    endpoint: "POST /v3/events/"
+    file: "src/tools/create-event.ts"
+    task_doc: "agent/tasks/create-event.md"
+    completion: 60
+    notes: "Basic implementation exists, needs validation improvements"
+    
+  get_event:
+    status: "in_progress"
+    priority: "high"
+    endpoint: "GET /v3/events/{id}/"
+    file: "src/tools/get-event.ts"
+    task_doc: "agent/tasks/get-event.md"
+    completion: 60
+    notes: "Basic implementation exists, needs expansion support"
+    
+  update_event:
+    status: "not_started"
+    priority: "high"
+    endpoint: "POST /v3/events/{id}/"
+    file: null
+    task_doc: "agent/tasks/update-event.md"
+    completion: 0
+    notes: "Not yet implemented"
+    
+  list_events:
+    status: "in_progress"
+    priority: "high"
+    endpoint: "GET /v3/organizations/{id}/events/"
+    file: "src/tools/list-events.ts"
+    task_doc: "agent/tasks/list-events.md"
+    completion: 60
+    notes: "Basic implementation exists, needs filter support"
+    
+  publish_event:
+    status: "not_started"
+    priority: "high"
+    endpoint: "POST /v3/events/{id}/publish/"
+    file: null
+    task_doc: "agent/tasks/publish-event.md"
+    completion: 0
+    notes: "Critical for making events live"
+    
+  unpublish_event:
+    status: "not_started"
+    priority: "medium"
+    endpoint: "POST /v3/events/{id}/unpublish/"
+    file: null
+    task_doc: null
+    completion: 0
+    
+  delete_event:
+    status: "not_started"
+    priority: "medium"
+    endpoint: "DELETE /v3/events/{id}/"
+    file: null
+    task_doc: "agent/tasks/delete-event.md"
+    completion: 0
+    
+  cancel_event:
+    status: "not_started"
+    priority: "medium"
+    endpoint: "POST /v3/events/{id}/cancel/"
+    file: null
+    task_doc: null
+    completion: 0
+    
+  copy_event:
+    status: "not_started"
+    priority: "low"
+    endpoint: "POST /v3/events/{id}/copy/"
+    file: null
+    task_doc: null
+    completion: 0
+
+### Ticket Management
+  create_ticket_class:
+    status: "in_progress"
+    priority: "high"
+    endpoint: "POST /v3/events/{id}/ticket_classes/"
+    file: "src/tools/create-ticket-class.ts"
+    task_doc: "agent/tasks/create-ticket-class.md"
+    completion: 60
+    notes: "Basic implementation exists, needs full parameter support"
+    
+  get_ticket_class:
+    status: "not_started"
+    priority: "high"
+    endpoint: "GET /v3/ticket_classes/{id}/"
+    file: null
+    task_doc: null
+    completion: 0
+    
+  update_ticket_class:
+    status: "not_started"
+    priority: "high"
+    endpoint: "POST /v3/ticket_classes/{id}/"
+    file: null
+    task_doc: null
+    completion: 0
+    
+  list_ticket_classes:
+    status: "not_started"
+    priority: "high"
+    endpoint: "GET /v3/events/{id}/ticket_classes/"
+    file: null
+    task_doc: null
+    completion: 0
+
+### Attendee Management
+  list_attendees:
+    status: "in_progress"
+    priority: "high"
+    endpoint: "GET /v3/events/{id}/attendees/"
+    file: "src/tools/list-attendees.ts"
+    task_doc: "agent/tasks/list-attendees.md"
+    completion: 60
+    notes: "Basic implementation exists, needs filter and expansion support"
+    
+  get_attendee:
+    status: "not_started"
+    priority: "medium"
+    endpoint: "GET /v3/attendees/{id}/"
+    file: null
+    task_doc: null
+    completion: 0
+
+### Order Management
+  get_order:
+    status: "not_started"
+    priority: "high"
+    endpoint: "GET /v3/orders/{id}/"
+    file: null
+    task_doc: null
+    completion: 0
+    
+  list_orders:
+    status: "not_started"
+    priority: "high"
+    endpoint: "GET /v3/events/{id}/orders/"
+    file: null
+    task_doc: null
+    completion: 0
+
+### Discount Management
+  create_discount:
+    status: "not_started"
+    priority: "medium"
+    endpoint: "POST /v3/discounts/"
+    file: null
+    task_doc: null
+    completion: 0
+    
+  get_discount:
+    status: "not_started"
+    priority: "medium"
+    endpoint: "GET /v3/discounts/{id}/"
+    file: null
+    task_doc: null
+    completion: 0
+    
+  update_discount:
+    status: "not_started"
+    priority: "medium"
+    endpoint: "POST /v3/discounts/{id}/"
+    file: null
+    task_doc: null
+    completion: 0
+    
+  delete_discount:
+    status: "not_started"
+    priority: "low"
+    endpoint: "DELETE /v3/discounts/{id}/"
+    file: null
+    task_doc: null
+    completion: 0
+
+### Venue Management
+  create_venue:
+    status: "not_started"
+    priority: "medium"
+    endpoint: "POST /v3/organizations/{id}/venues/"
+    file: null
+    task_doc: null
+    completion: 0
+    
+  get_venue:
+    status: "not_started"
+    priority: "medium"
+    endpoint: "GET /v3/venues/{id}/"
+    file: null
+    task_doc: null
+    completion: 0
+    
+  update_venue:
+    status: "not_started"
+    priority: "low"
+    endpoint: "POST /v3/venues/{id}/"
+    file: null
+    task_doc: null
+    completion: 0
+    
+  list_venues:
+    status: "not_started"
+    priority: "medium"
+    endpoint: "GET /v3/organizations/{id}/venues/"
+    file: null
+    task_doc: null
+    completion: 0
+
+### Organization Management
+  get_organization:
+    status: "not_started"
+    priority: "medium"
+    endpoint: "GET /v3/organizations/{id}/"
+    file: null
+    task_doc: null
+    completion: 0
+    
+  list_organizations:
+    status: "not_started"
+    priority: "high"
+    endpoint: "GET /v3/users/me/organizations/"
+    file: null
+    task_doc: null
+    completion: 0
+    
+  list_organization_members:
+    status: "not_started"
+    priority: "low"
+    endpoint: "GET /v3/organizations/{id}/members/"
+    file: null
+    task_doc: null
+    completion: 0
+
+### User Management
+  get_user:
+    status: "not_started"
+    priority: "medium"
+    endpoint: "GET /v3/users/me/"
+    file: null
+    task_doc: null
+    completion: 0
+
+### Media Management
+  upload_media:
+    status: "not_started"
+    priority: "medium"
+    endpoint: "POST /v3/media/upload/"
+    file: null
+    task_doc: null
+    completion: 0
+    
+  get_media:
+    status: "not_started"
+    priority: "low"
+    endpoint: "GET /v3/media/{id}/"
+    file: null
+    task_doc: null
+    completion: 0
+
+### Content Management
+  set_structured_content:
+    status: "not_started"
+    priority: "medium"
+    endpoint: "POST /v3/events/{id}/structured_content/{purpose}/{version}/"
+    file: null
+    task_doc: null
+    completion: 0
+    
+  get_structured_content:
+    status: "not_started"
+    priority: "medium"
+    endpoint: "GET /v3/events/{id}/structured_content/{purpose}/"
+    file: null
+    task_doc: null
+    completion: 0
+
+### Webhook Management
+  create_webhook:
+    status: "not_started"
+    priority: "low"
+    endpoint: "POST /v3/organizations/{id}/webhooks/"
+    file: null
+    task_doc: null
+    completion: 0
+    
+  list_webhooks:
+    status: "not_started"
+    priority: "low"
+    endpoint: "GET /v3/organizations/{id}/webhooks/"
+    file: null
+    task_doc: null
+    completion: 0
+    
+  delete_webhook:
+    status: "not_started"
+    priority: "low"
+    endpoint: "DELETE /v3/webhooks/{id}/"
+    file: null
+    task_doc: null
+    completion: 0
+
+### Categories & Formats
+  list_categories:
+    status: "not_started"
+    priority: "low"
+    endpoint: "GET /v3/categories/"
+    file: null
+    task_doc: null
+    completion: 0
+    
+  get_category:
+    status: "not_started"
+    priority: "low"
+    endpoint: "GET /v3/categories/{id}/"
+    file: null
+    task_doc: null
+    completion: 0
+    
+  list_formats:
+    status: "not_started"
+    priority: "low"
+    endpoint: "GET /v3/formats/"
+    file: null
+    task_doc: null
+    completion: 0
+    
+  get_format:
+    status: "not_started"
+    priority: "low"
+    endpoint: "GET /v3/formats/{id}/"
+    file: null
+    task_doc: null
+    completion: 0
+
+### Reports
+  get_sales_report:
+    status: "not_started"
+    priority: "low"
+    endpoint: "GET /v3/reports/sales/"
+    file: null
+    task_doc: null
+    completion: 0
+    
+  get_attendee_report:
+    status: "not_started"
+    priority: "low"
+    endpoint: "GET /v3/reports/attendees/"
+    file: null
+    task_doc: null
+    completion: 0
+
+## Progress Summary
+
+overall_progress:
+  total_tools_planned: 45
+  tools_completed: 0
+  tools_in_progress: 5
+  tools_not_started: 40
+  completion_percentage: 11
+
+phase_progress:
+  phase_1_core_event_management:
+    total: 8
+    completed: 0
+    in_progress: 5
+    not_started: 3
+    completion: 63
+    
+  phase_2_ticketing_orders:
+    total: 7
+    completed: 0
+    in_progress: 0
+    not_started: 7
+    completion: 0
+    
+  phase_3_venue_organization:
+    total: 7
+    completed: 0
+    in_progress: 0
+    not_started: 7
+    completion: 0
+    
+  phase_4_content_media:
+    total: 5
+    completed: 0
+    in_progress: 0
+    not_started: 5
+    completion: 0
+    
+  phase_5_advanced_features:
+    total: 6
+    completed: 0
+    in_progress: 0
+    not_started: 6
+    completion: 0
+
+## Current Focus
+
+current_sprint:
+  name: "Event Creation & Management"
+  start_date: "2026-02-08"
+  goals:
+    - "Complete create_event tool with full validation"
+    - "Complete get_event tool with expansion support"
+    - "Complete update_event tool"
+    - "Complete publish_event tool"
+    - "Complete create_ticket_class tool with all parameters"
+    - "Complete list_events tool with filters"
+    - "Complete list_attendees tool with filters"
+  
+  priority_order:
+    1: "create_event"
+    2: "create_ticket_class"
+    3: "publish_event"
+    4: "get_event"
+    5: "update_event"
+    6: "list_events"
+    7: "list_attendees"
+    8: "delete_event"
+
+## Next Steps
+
+immediate_tasks:
+  - task: "Enhance create_event validation"
+    priority: "high"
+    estimated_effort: "2 hours"
+    
+  - task: "Add expansion support to get_event"
+    priority: "high"
+    estimated_effort: "1 hour"
+    
+  - task: "Implement update_event tool"
+    priority: "high"
+    estimated_effort: "2 hours"
+    
+  - task: "Implement publish_event tool"
+    priority: "high"
+    estimated_effort: "1 hour"
+    
+  - task: "Enhance create_ticket_class with all parameters"
+    priority: "high"
+    estimated_effort: "2 hours"
+    
+  - task: "Add filter support to list_events"
+    priority: "medium"
+    estimated_effort: "1 hour"
+    
+  - task: "Add filter support to list_attendees"
+    priority: "medium"
+    estimated_effort: "1 hour"
+
+## Testing Status
+
+testing:
+  unit_tests:
+    total: 0
+    passing: 0
+    failing: 0
+    coverage: 0
+    
+  integration_tests:
+    total: 0
+    passing: 0
+    failing: 0
+    coverage: 0
+    
+  e2e_tests:
+    total: 0
+    passing: 0
+    failing: 0
+
+## Documentation Status
+
+documentation:
+  api_reference:
+    status: "complete"
+    files:
+      - "agent/00-overview.md"
+      - "agent/01-authentication.md"
+      - "agent/02-errors.md"
+      - "agent/03-endpoints-reference.md"
+      - "agent/04-data-types.md"
+      - "agent/README.md"
+  
+  task_specifications:
+    status: "in_progress"
+    completed: 6
+    total: 45
+    files:
+      - "agent/tasks/create-event.md"
+      - "agent/tasks/get-event.md"
+      - "agent/tasks/update-event.md"
+      - "agent/tasks/publish-event.md"
+      - "agent/tasks/delete-event.md"
+      - "agent/tasks/list-events.md"
+      - "agent/tasks/list-attendees.md"
+      - "agent/tasks/create-ticket-class.md"
+  
+  user_guide:
+    status: "not_started"
+    
+  api_examples:
+    status: "not_started"
+
+## Known Issues
+
+issues:
+  - id: 1
+    title: "create_event missing validation for mutually exclusive fields"
+    priority: "high"
+    status: "open"
+    
+  - id: 2
+    title: "get_event doesn't support expansions"
+    priority: "high"
+    status: "open"
+    
+  - id: 3
+    title: "list_events doesn't support filtering"
+    priority: "medium"
+    status: "open"
+    
+  - id: 4
+    title: "create_ticket_class missing optional parameters"
+    priority: "medium"
+    status: "open"
+    
+  - id: 5
+    title: "No pagination helper for list endpoints"
+    priority: "medium"
+    status: "open"
+
+## Dependencies
+
+external_dependencies:
+  - name: "@modelcontextprotocol/sdk"
+    version: "^1.0.4"
+    status: "installed"
+    
+  - name: "axios"
+    version: "^1.7.9"
+    status: "installed"
+    
+  - name: "typescript"
+    version: "^5.7.2"
+    status: "installed"
+
+## Milestones
+
+milestones:
+  - name: "MVP - Basic Event Management"
+    target_date: "2026-02-15"
+    status: "in_progress"
+    completion: 60
+    requirements:
+      - "Create event"
+      - "Get event"
+      - "Update event"
+      - "Publish event"
+      - "Create ticket class"
+      - "List events"
+    
+  - name: "v1.0 - Complete Event Lifecycle"
+    target_date: "2026-03-01"
+    status: "not_started"
+    completion: 0
+    requirements:
+      - "All Phase 1 tools complete"
+      - "All Phase 2 tools complete"
+      - "Basic testing suite"
+      - "Documentation complete"
+    
+  - name: "v2.0 - Full API Coverage"
+    target_date: "2026-04-01"
+    status: "not_started"
+    completion: 0
+    requirements:
+      - "All 45 tools implemented"
+      - "Comprehensive testing"
+      - "Advanced features"
+      - "Performance optimization"
+
+## Notes
+
+- Focus on Phase 1 (Core Event Management) first
+- Prioritize tools needed for complete event creation workflow
+- Each tool needs comprehensive validation and error handling
+- All tools must follow MCP server patterns
+- Documentation must be kept up to date
