@@ -1,16 +1,22 @@
 # @prmichaelsen/eventbrite-mcp
 
-An MCP (Model Context Protocol) server that provides event management and ticketing capabilities through the Eventbrite API.
+An MCP (Model Context Protocol) server that provides comprehensive event management and ticketing capabilities through the Eventbrite API v3.
 
-> Note: Not every tool in this repository has been tested. Ticket creation workflow is supported. If other tools fail, please create an issue for that tool.
+> Note: This server implements 42 of 80 Eventbrite API endpoints (53% coverage). Core event and ticketing workflows are fully supported.
 
 ## Features
 
-- **Event Management**: List, create, and retrieve event details
-- **Ticket Management**: Create and manage ticket classes
-- **Attendee Management**: List and retrieve attendee information
-- **Organization Support**: Work with Eventbrite organizations
-- **Pagination Support**: Handle large datasets efficiently
+- **Event Management**: Create, update, publish, delete, cancel, and copy events
+- **Ticket Management**: Create, update, and manage ticket classes
+- **Order Management**: Retrieve and list orders
+- **Attendee Management**: Get and list attendee information
+- **Organization Support**: Manage organizations, venues, and members
+- **Discount Management**: Create and manage discount codes
+- **Media & Content**: Upload media and manage structured content
+- **Webhooks**: Create and manage webhooks
+- **Categories & Formats**: Access event categories and formats
+- **Inventory Management**: Manage inventory tiers
+- **And more**: 42 tools total - see [`./src/tools`](./src/tools) for complete list
 
 ## Installation
 
@@ -63,41 +69,7 @@ Add to your MCP client configuration (e.g., Claude Desktop, Kilo Code):
 }
 ```
 
-## Available Tools
-
-### list_events
-
-List events from Eventbrite with optional filtering.
-
-**Parameters:**
-- `organizationId` (optional): Filter events by organization ID
-- `status` (optional): Filter by status (draft, live, started, ended, completed, canceled, all)
-- `orderBy` (optional): Order results (start_asc, start_desc, created_asc, created_desc)
-- `pageSize` (optional): Number of results per page (1-50, default: 50)
-- `continuation` (optional): Pagination token
-
-**Example:**
-```typescript
-{
-  "status": "live",
-  "orderBy": "start_asc",
-  "pageSize": 10
-}
-```
-
-### get_event
-
-Get detailed information about a specific event.
-
-**Parameters:**
-- `eventId` (required): The ID of the event
-
-**Example:**
-```typescript
-{
-  "eventId": "123456789"
-}
-```
+## Tool Examples
 
 ### create_event
 
@@ -130,6 +102,31 @@ Create a new event on Eventbrite.
 }
 ```
 
+### update_event
+
+Update an existing event by event ID. Supports partial updates.
+
+**Parameters:**
+- `event_id` (required): Event ID
+- `name` (optional): Event name object with html property
+- `summary` (optional): Event summary
+- `start` (optional): Start datetime with timezone and utc
+- `end` (optional): End datetime with timezone and utc
+- `currency` (optional): Currency code
+- `online_event` (optional): Is online only
+- `listed` (optional): Publicly searchable
+- Plus 20+ additional optional fields
+
+**Example:**
+```typescript
+{
+  "event_id": "123456789",
+  "name": { "html": "Updated Conference Name" },
+  "summary": "New event description",
+  "listed": true
+}
+```
+
 ### create_ticket_class
 
 Create a ticket class for an event.
@@ -158,24 +155,40 @@ Create a ticket class for an event.
 }
 ```
 
-### list_attendees
+### publish_event
 
-List attendees for a specific event.
+Publish an event to make it live and available for ticket sales.
 
 **Parameters:**
-- `eventId` (required): The event ID
-- `status` (optional): Filter by status (attending, not_attending, unpaid)
-- `pageSize` (optional): Results per page (1-50, default: 50)
-- `continuation` (optional): Pagination token
+- `event_id` (required): Event ID
 
 **Example:**
 ```typescript
 {
-  "eventId": "123456789",
-  "status": "attending",
-  "pageSize": 50
+  "event_id": "123456789"
 }
 ```
+
+## All Available Tools
+
+For a complete list of all 42 supported tools, please see [`./src/tools`](./src/tools) directory.
+
+**Tool Categories:**
+- Events (9 tools)
+- Tickets (4 tools)
+- Orders (2 tools)
+- Attendees (2 tools)
+- Organizations (3 tools)
+- Venues (4 tools)
+- Discounts (5 tools)
+- Categories & Formats (6 tools)
+- Webhooks (3 tools)
+- Media & Content (4 tools)
+- Inventory Tiers (5 tools)
+- Display Settings (2 tools)
+- Questions (3 tools)
+- User (1 tool)
+- API Documentation (1 tool)
 
 ## Development
 
@@ -204,18 +217,10 @@ eventbrite-mcp/
 │   ├── server.ts              # Main MCP server
 │   ├── eventbrite/
 │   │   └── client.ts          # Eventbrite API client
-│   ├── tools/                 # MCP tool implementations
-│   │   ├── list-events.ts
-│   │   ├── get-event.ts
-│   │   ├── create-event.ts
-│   │   ├── create-ticket-class.ts
-│   │   └── list-attendees.ts
+│   ├── tools/                 # MCP tool implementations (42 tools)
 │   ├── types/                 # TypeScript type definitions
-│   │   ├── eventbrite.ts
-│   │   └── mcp.ts
 │   └── utils/                 # Utility functions
-│       ├── logger.ts
-│       └── error-serializer.ts
+├── agent/                     # Development documentation
 ├── package.json
 ├── tsconfig.json
 └── README.md
