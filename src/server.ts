@@ -15,6 +15,7 @@ import { CreateEventTool } from './tools/create-event.js';
 import { ListAttendeesTool } from './tools/list-attendees.js';
 import { CreateTicketClassTool } from './tools/create-ticket-class.js';
 import { logger } from './utils/logger.js';
+import { isMCPErrorResponse, formatErrorForDisplay } from './utils/mcp-error-handler.js';
 
 // Load environment variables
 config();
@@ -111,7 +112,20 @@ class EventbriteMCPServer {
             throw new Error(`Unknown tool: ${name}`);
         }
 
-        // Check if the tool returned an error response
+        // Check if the result is an MCP error response
+        if (isMCPErrorResponse(result)) {
+          return {
+            content: [
+              {
+                type: 'text',
+                text: formatErrorForDisplay(result),
+              },
+            ],
+            isError: true,
+          };
+        }
+
+        // Check if the tool returned an error response (legacy format)
         if (result.error || !result.success) {
           return {
             content: [
@@ -135,15 +149,17 @@ class EventbriteMCPServer {
         };
       } catch (error) {
         logger.error(`Tool execution failed for ${name}:`, error);
+        
+        // Format error for MCP client
+        const errorMessage = error instanceof Error 
+          ? `❌ ${name} failed\n\nError: ${error.name}\nMessage: ${error.message}\n\n${error.stack || ''}`
+          : `❌ ${name} failed\n\nUnknown error: ${String(error)}`;
+        
         return {
           content: [
             {
               type: 'text',
-              text: JSON.stringify({
-                success: false,
-                error: error instanceof Error ? error.message : 'Unknown error',
-                tool: name
-              }, null, 2),
+              text: errorMessage,
             },
           ],
           isError: true,
