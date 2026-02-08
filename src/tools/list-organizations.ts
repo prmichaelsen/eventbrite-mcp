@@ -7,7 +7,36 @@ export class ListOrganizationsTool {
   getToolDefinition() {
     return {
       name: 'list_organizations',
-      description: 'List organizations that the authenticated user is a member of. Returns paginated list of organizations with details including id (organization ID, must be obtained via API - NOT the same as organizer_id from organizer profile URL), name, image_id, and vertical (business type: default or music). Organizations represent business structures where events are created and managed. Organizations are owned by one user and can have multiple members. Use this to get organization IDs needed for other API calls like creating events or listing organization events.',
+      description: `List organizations that the authenticated user is a member of.
+
+ENDPOINT: GET /users/me/organizations/
+
+An Organization represents a business structure (like a Marketing department) where Events are created and managed. Organizations are owned by one User and can have multiple Members.
+
+Organizations group Members, Roles, Venues, and Assortments.
+
+IMPORTANT: The organization_id returned by this endpoint must be obtained via API request. It is NOT the same as the organizer_id found in an Organizer Profile URL.
+
+ORGANIZATION OBJECT FIELDS:
+- id (string): Organization ID (required for API calls like creating events, listing organization events)
+- name (string): Organization name
+- image_id (string, optional): ID of organization image
+- vertical (string): Business vertical type
+  * default: Default business type
+  * music: Music business type
+
+USE CASES:
+- Get organization IDs needed for other API operations
+- Create events under an organization (requires organization_id)
+- List events for an organization
+- Manage organization members and roles
+
+RESPONSE:
+- organizations (array): List of Organization objects
+- pagination: Pagination information
+
+AUTHENTICATION:
+Requires: Authorization: Bearer PERSONAL_OAUTH_TOKEN`,
       inputSchema: {
         type: 'object',
         properties: {},
