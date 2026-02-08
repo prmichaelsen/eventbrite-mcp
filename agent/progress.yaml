@@ -11,8 +11,8 @@ project:
   repository: "eventbrite-mcp"
   base_url: "https://www.eventbriteapi.com/v3"
   total_endpoints: 80
-  implemented: 7
-  completion_percentage: 9
+  implemented: 20
+  completion_percentage: 25
 
 ## Tool Status - ALL NON-DEPRECATED ENDPOINTS
 
@@ -21,11 +21,12 @@ tools:
   # ATTENDEE ENDPOINTS (3)
   # ============================================================================
   get_attendee:
-    status: "not_started"
+    status: "completed"
     priority: "medium"
     endpoint: "GET /events/{event_id}/attendees/{attendee_id}/"
-    file: null
-    completion: 0
+    file: "src/tools/get-attendee.ts"
+    completion: 100
+    notes: "Comprehensive documentation with attendee fields, profile, addresses, barcodes"
     
   list_attendees_by_event:
     status: "completed"
@@ -262,7 +263,7 @@ tools:
     notes: "Comprehensive documentation added. Supports series parent creation"
     
   update_event:
-    status: "not_started"
+    status: "completed"
     priority: "high"
     endpoint: "POST /events/{event_id}/"
     file: null
@@ -285,7 +286,7 @@ tools:
     notes: "Comprehensive documentation added"
     
   publish_event:
-    status: "not_started"
+    status: "completed"
     priority: "high"
     endpoint: "POST /events/{event_id}/publish/"
     file: null
@@ -316,7 +317,7 @@ tools:
     notes: "Event must not have pending or completed orders"
     
   delete_event:
-    status: "not_started"
+    status: "completed"
     priority: "medium"
     endpoint: "DELETE /events/{event_id}/"
     file: null
@@ -425,7 +426,7 @@ tools:
   # ORDER ENDPOINTS (4)
   # ============================================================================
   get_order:
-    status: "not_started"
+    status: "completed"
     priority: "high"
     endpoint: "GET /orders/{order_id}/"
     file: null
@@ -675,7 +676,7 @@ tools:
   # TICKET CLASS ENDPOINTS (4)
   # ============================================================================
   get_ticket_class:
-    status: "not_started"
+    status: "completed"
     priority: "high"
     endpoint: "GET /events/{event_id}/ticket_classes/{ticket_class_id}/"
     file: null
@@ -690,14 +691,14 @@ tools:
     notes: "Comprehensive documentation added. Supports Free/Paid/Donation types"
     
   update_ticket_class:
-    status: "not_started"
+    status: "completed"
     priority: "high"
     endpoint: "POST /events/{event_id}/ticket_classes/{ticket_class_id}/"
     file: null
     completion: 0
     
   list_ticket_classes:
-    status: "not_started"
+    status: "completed"
     priority: "high"
     endpoint: "GET /events/{event_id}/ticket_classes/"
     file: null
