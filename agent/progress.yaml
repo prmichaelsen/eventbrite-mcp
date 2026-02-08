@@ -1,670 +1,1026 @@
 # Eventbrite MCP Server - Development Progress
+# GOAL: Support EVERY SINGLE NON-DEPRECATED ENDPOINT
 
-version: "1.0"
+version: "2.0"
 last_updated: "2026-02-08"
 
 ## Project Overview
 project:
   name: "Eventbrite MCP Server"
-  description: "Model Context Protocol server for Eventbrite API v3"
+  description: "Model Context Protocol server for Eventbrite API v3 - Complete API Coverage"
   repository: "eventbrite-mcp"
   base_url: "https://www.eventbriteapi.com/v3"
+  total_endpoints: 80
+  implemented: 7
+  completion_percentage: 9
 
-## Development Phases
+## Tool Status - ALL NON-DEPRECATED ENDPOINTS
 
-phases:
-  - name: "Phase 1: Core Event Management"
-    status: "in_progress"
-    priority: "high"
-    tools:
-      - create_event
-      - get_event
-      - update_event
-      - list_events
-      - publish_event
-      - delete_event
-      - create_ticket_class
-      - list_attendees
-    
-  - name: "Phase 2: Ticketing & Orders"
-    status: "not_started"
-    priority: "high"
-    tools:
-      - get_ticket_class
-      - update_ticket_class
-      - list_ticket_classes
-      - create_discount
-      - get_order
-      - list_orders
-      - get_attendee
-    
-  - name: "Phase 3: Venue & Organization"
-    status: "not_started"
-    priority: "medium"
-    tools:
-      - create_venue
-      - get_venue
-      - update_venue
-      - list_venues
-      - get_organization
-      - list_organizations
-      - list_organization_members
-    
-  - name: "Phase 4: Content & Media"
-    status: "not_started"
-    priority: "medium"
-    tools:
-      - upload_media
-      - get_media
-      - set_structured_content
-      - get_structured_content
-      - update_display_settings
-    
-  - name: "Phase 5: Advanced Features"
-    status: "not_started"
-    priority: "low"
-    tools:
-      - create_webhook
-      - list_webhooks
-      - delete_webhook
-      - create_inventory_tier
-      - create_seat_map
-      - create_event_schedule
-
-## Tool Status
-
-### Event Management
 tools:
-  create_event:
-    status: "in_progress"
-    priority: "high"
-    endpoint: "POST /v3/events/"
-    file: "src/tools/create-event.ts"
-    task_doc: "agent/tasks/create-event.md"
-    completion: 60
-    notes: "Basic implementation exists, needs validation improvements"
-    
-  get_event:
-    status: "in_progress"
-    priority: "high"
-    endpoint: "GET /v3/events/{id}/"
-    file: "src/tools/get-event.ts"
-    task_doc: "agent/tasks/get-event.md"
-    completion: 60
-    notes: "Basic implementation exists, needs expansion support"
-    
-  update_event:
-    status: "not_started"
-    priority: "high"
-    endpoint: "POST /v3/events/{id}/"
-    file: null
-    task_doc: "agent/tasks/update-event.md"
-    completion: 0
-    notes: "Not yet implemented"
-    
-  list_events:
-    status: "in_progress"
-    priority: "high"
-    endpoint: "GET /v3/organizations/{id}/events/"
-    file: "src/tools/list-events.ts"
-    task_doc: "agent/tasks/list-events.md"
-    completion: 60
-    notes: "Basic implementation exists, needs filter support"
-    
-  publish_event:
-    status: "not_started"
-    priority: "high"
-    endpoint: "POST /v3/events/{id}/publish/"
-    file: null
-    task_doc: "agent/tasks/publish-event.md"
-    completion: 0
-    notes: "Critical for making events live"
-    
-  unpublish_event:
-    status: "not_started"
-    priority: "medium"
-    endpoint: "POST /v3/events/{id}/unpublish/"
-    file: null
-    task_doc: null
-    completion: 0
-    
-  delete_event:
-    status: "not_started"
-    priority: "medium"
-    endpoint: "DELETE /v3/events/{id}/"
-    file: null
-    task_doc: "agent/tasks/delete-event.md"
-    completion: 0
-    
-  cancel_event:
-    status: "not_started"
-    priority: "medium"
-    endpoint: "POST /v3/events/{id}/cancel/"
-    file: null
-    task_doc: null
-    completion: 0
-    
-  copy_event:
-    status: "not_started"
-    priority: "low"
-    endpoint: "POST /v3/events/{id}/copy/"
-    file: null
-    task_doc: null
-    completion: 0
-
-### Ticket Management
-  create_ticket_class:
-    status: "in_progress"
-    priority: "high"
-    endpoint: "POST /v3/events/{id}/ticket_classes/"
-    file: "src/tools/create-ticket-class.ts"
-    task_doc: "agent/tasks/create-ticket-class.md"
-    completion: 60
-    notes: "Basic implementation exists, needs full parameter support"
-    
-  get_ticket_class:
-    status: "not_started"
-    priority: "high"
-    endpoint: "GET /v3/ticket_classes/{id}/"
-    file: null
-    task_doc: null
-    completion: 0
-    
-  update_ticket_class:
-    status: "not_started"
-    priority: "high"
-    endpoint: "POST /v3/ticket_classes/{id}/"
-    file: null
-    task_doc: null
-    completion: 0
-    
-  list_ticket_classes:
-    status: "not_started"
-    priority: "high"
-    endpoint: "GET /v3/events/{id}/ticket_classes/"
-    file: null
-    task_doc: null
-    completion: 0
-
-### Attendee Management
-  list_attendees:
-    status: "in_progress"
-    priority: "high"
-    endpoint: "GET /v3/events/{id}/attendees/"
-    file: "src/tools/list-attendees.ts"
-    task_doc: "agent/tasks/list-attendees.md"
-    completion: 60
-    notes: "Basic implementation exists, needs filter and expansion support"
-    
+  # ============================================================================
+  # ATTENDEE ENDPOINTS (3)
+  # ============================================================================
   get_attendee:
     status: "not_started"
     priority: "medium"
-    endpoint: "GET /v3/attendees/{id}/"
+    endpoint: "GET /events/{event_id}/attendees/{attendee_id}/"
     file: null
-    task_doc: null
-    completion: 0
-
-### Order Management
-  get_order:
-    status: "not_started"
-    priority: "high"
-    endpoint: "GET /v3/orders/{id}/"
-    file: null
-    task_doc: null
     completion: 0
     
-  list_orders:
-    status: "not_started"
+  list_attendees_by_event:
+    status: "completed"
     priority: "high"
-    endpoint: "GET /v3/events/{id}/orders/"
-    file: null
-    task_doc: null
-    completion: 0
-
-### Discount Management
-  create_discount:
+    endpoint: "GET /events/{event_id}/attendees/"
+    file: "src/tools/list-attendees.ts"
+    completion: 100
+    notes: "Comprehensive documentation added"
+    
+  list_attendees_by_organization:
     status: "not_started"
     priority: "medium"
-    endpoint: "POST /v3/discounts/"
+    endpoint: "GET /organizations/{organization_id}/attendees/"
     file: null
-    task_doc: null
+    completion: 0
+
+  # ============================================================================
+  # BALANCE ENDPOINTS (1)
+  # ============================================================================
+  get_remaining_balance:
+    status: "not_started"
+    priority: "low"
+    endpoint: "GET /balance/{public_organization_id}/events/{public_event_id}/"
+    file: null
+    completion: 0
+    notes: "Requires event.billing.payouts_summary permission"
+
+  # ============================================================================
+  # CATEGORY ENDPOINTS (4)
+  # ============================================================================
+  get_category:
+    status: "not_started"
+    priority: "low"
+    endpoint: "GET /categories/{id}/"
+    file: null
     completion: 0
     
+  get_subcategory:
+    status: "not_started"
+    priority: "low"
+    endpoint: "GET /subcategories/{subcategory_id}/"
+    file: null
+    completion: 0
+    
+  list_categories:
+    status: "not_started"
+    priority: "low"
+    endpoint: "GET /categories/"
+    file: null
+    completion: 0
+    
+  list_subcategories:
+    status: "not_started"
+    priority: "low"
+    endpoint: "GET /subcategories/"
+    file: null
+    completion: 0
+
+  # ============================================================================
+  # DISCOUNT ENDPOINTS (5)
+  # ============================================================================
   get_discount:
     status: "not_started"
     priority: "medium"
-    endpoint: "GET /v3/discounts/{id}/"
+    endpoint: "GET /discounts/{discount_id}/"
     file: null
-    task_doc: null
+    completion: 0
+    
+  create_discount:
+    status: "not_started"
+    priority: "medium"
+    endpoint: "POST /organizations/{organization_id}/discounts/"
+    file: null
     completion: 0
     
   update_discount:
     status: "not_started"
     priority: "medium"
-    endpoint: "POST /v3/discounts/{id}/"
+    endpoint: "POST /discounts/{discount_id}/"
     file: null
-    task_doc: null
+    completion: 0
+    
+  list_discounts:
+    status: "not_started"
+    priority: "medium"
+    endpoint: "GET /organizations/{organization_id}/discounts/"
+    file: null
     completion: 0
     
   delete_discount:
     status: "not_started"
     priority: "low"
-    endpoint: "DELETE /v3/discounts/{id}/"
+    endpoint: "DELETE /discounts/{discount_id}/"
     file: null
-    task_doc: null
     completion: 0
+    notes: "Only unused discounts can be deleted"
 
-### Venue Management
-  create_venue:
-    status: "not_started"
-    priority: "medium"
-    endpoint: "POST /v3/organizations/{id}/venues/"
-    file: null
-    task_doc: null
-    completion: 0
-    
-  get_venue:
-    status: "not_started"
-    priority: "medium"
-    endpoint: "GET /v3/venues/{id}/"
-    file: null
-    task_doc: null
-    completion: 0
-    
-  update_venue:
+  # ============================================================================
+  # DISPLAY SETTINGS ENDPOINTS (2)
+  # ============================================================================
+  get_display_settings:
     status: "not_started"
     priority: "low"
-    endpoint: "POST /v3/venues/{id}/"
+    endpoint: "GET /events/{event_id}/display_settings/"
     file: null
-    task_doc: null
     completion: 0
     
-  list_venues:
+  update_display_settings:
     status: "not_started"
-    priority: "medium"
-    endpoint: "GET /v3/organizations/{id}/venues/"
+    priority: "low"
+    endpoint: "POST /events/{event_id}/display_settings/"
     file: null
-    task_doc: null
     completion: 0
 
-### Organization Management
-  get_organization:
+  # ============================================================================
+  # EVENT CAPACITY ENDPOINTS (2)
+  # ============================================================================
+  get_capacity_tier:
     status: "not_started"
     priority: "medium"
-    endpoint: "GET /v3/organizations/{id}/"
+    endpoint: "GET /events/{event_id}/capacity_tier/"
     file: null
-    task_doc: null
     completion: 0
     
-  list_organizations:
+  update_capacity_tier:
+    status: "not_started"
+    priority: "medium"
+    endpoint: "POST /events/{event_id}/capacity_tier/"
+    file: null
+    completion: 0
+    notes: "Supports creating/updating/deleting GA capacity hold inventory tiers"
+
+  # ============================================================================
+  # EVENT DESCRIPTION ENDPOINTS (1)
+  # ============================================================================
+  get_event_description:
+    status: "not_started"
+    priority: "medium"
+    endpoint: "GET /events/{event_id}/description/"
+    file: null
+    completion: 0
+    notes: "Returns fully rendered HTML description"
+
+  # ============================================================================
+  # EVENT SCHEDULE ENDPOINTS (1)
+  # ============================================================================
+  create_event_schedule:
+    status: "not_started"
+    priority: "medium"
+    endpoint: "POST /events/{event_id}/schedules/"
+    file: null
+    completion: 0
+    notes: "For creating recurring event occurrences. Requires series parent event"
+
+  # ============================================================================
+  # EVENT SERIES ENDPOINTS (2)
+  # ============================================================================
+  get_event_series:
+    status: "not_started"
+    priority: "medium"
+    endpoint: "GET /series/{event_series_id}/"
+    file: null
+    completion: 0
+    
+  list_events_by_series:
+    status: "not_started"
+    priority: "medium"
+    endpoint: "GET /series/{event_series_id}/events/"
+    file: null
+    completion: 0
+
+  # ============================================================================
+  # EVENT TEAMS ENDPOINTS (5)
+  # ============================================================================
+  list_teams_by_event:
+    status: "not_started"
+    priority: "low"
+    endpoint: "GET /events/{event_id}/teams/"
+    file: null
+    completion: 0
+    
+  get_team:
+    status: "not_started"
+    priority: "low"
+    endpoint: "GET /events/{event_id}/teams/{team_id}/"
+    file: null
+    completion: 0
+    
+  list_attendees_by_team:
+    status: "not_started"
+    priority: "low"
+    endpoint: "GET /events/{event_id}/teams/{team_id}/attendees/"
+    file: null
+    completion: 0
+    
+  create_team:
+    status: "not_started"
+    priority: "low"
+    endpoint: "POST /events/{event_id}/teams/create/"
+    file: null
+    completion: 0
+    
+  verify_team_password:
+    status: "not_started"
+    priority: "low"
+    endpoint: "POST /events/{event_id}/teams/{team_id}/check_password/"
+    file: null
+    completion: 0
+    
+  search_teams:
+    status: "not_started"
+    priority: "low"
+    endpoint: "GET /events/{event_id}/teams/search/"
+    file: null
+    completion: 0
+
+  # ============================================================================
+  # EVENT ENDPOINTS (11)
+  # ============================================================================
+  get_event:
+    status: "completed"
+    priority: "high"
+    endpoint: "GET /events/{event_id}/"
+    file: "src/tools/get-event.ts"
+    completion: 100
+    notes: "Comprehensive documentation added"
+    
+  create_event:
+    status: "completed"
+    priority: "high"
+    endpoint: "POST /organizations/{organization_id}/events/"
+    file: "src/tools/create-event.ts"
+    completion: 100
+    notes: "Comprehensive documentation added. Supports series parent creation"
+    
+  update_event:
     status: "not_started"
     priority: "high"
-    endpoint: "GET /v3/users/me/organizations/"
+    endpoint: "POST /events/{event_id}/"
     file: null
-    task_doc: null
     completion: 0
+    notes: "Series parent updates affect all occurrences"
     
-  list_organization_members:
-    status: "not_started"
-    priority: "low"
-    endpoint: "GET /v3/organizations/{id}/members/"
-    file: null
-    task_doc: null
-    completion: 0
-
-### User Management
-  get_user:
+  list_events_by_venue:
     status: "not_started"
     priority: "medium"
-    endpoint: "GET /v3/users/me/"
+    endpoint: "GET /venues/{venue_id}/events/"
     file: null
-    task_doc: null
     completion: 0
-
-### Media Management
-  upload_media:
+    
+  list_events_by_organization:
+    status: "completed"
+    priority: "high"
+    endpoint: "GET /organizations/{organization_id}/events/"
+    file: "src/tools/list-events.ts"
+    completion: 100
+    notes: "Comprehensive documentation added"
+    
+  publish_event:
+    status: "not_started"
+    priority: "high"
+    endpoint: "POST /events/{event_id}/publish/"
+    file: null
+    completion: 0
+    notes: "Critical for making events live. Validates all required fields"
+    
+  unpublish_event:
     status: "not_started"
     priority: "medium"
-    endpoint: "POST /v3/media/upload/"
+    endpoint: "POST /events/{event_id}/unpublish/"
     file: null
-    task_doc: null
     completion: 0
     
-  get_media:
+  copy_event:
     status: "not_started"
     priority: "low"
-    endpoint: "GET /v3/media/{id}/"
+    endpoint: "POST /events/{event_id}/copy/"
     file: null
-    task_doc: null
     completion: 0
-
-### Content Management
-  set_structured_content:
+    notes: "Copies payment options, payout method, refund policy, tax settings"
+    
+  cancel_event:
     status: "not_started"
     priority: "medium"
-    endpoint: "POST /v3/events/{id}/structured_content/{purpose}/{version}/"
+    endpoint: "POST /events/{event_id}/cancel/"
     file: null
-    task_doc: null
     completion: 0
+    notes: "Event must not have pending or completed orders"
     
-  get_structured_content:
+  delete_event:
     status: "not_started"
     priority: "medium"
-    endpoint: "GET /v3/events/{id}/structured_content/{purpose}/"
+    endpoint: "DELETE /events/{event_id}/"
     file: null
-    task_doc: null
     completion: 0
+    notes: "Event must not have pending or completed orders"
 
-### Webhook Management
-  create_webhook:
+  # ============================================================================
+  # FORMAT ENDPOINTS (2)
+  # ============================================================================
+  get_format:
     status: "not_started"
     priority: "low"
-    endpoint: "POST /v3/organizations/{id}/webhooks/"
+    endpoint: "GET /formats/{format_id}/"
     file: null
-    task_doc: null
-    completion: 0
-    
-  list_webhooks:
-    status: "not_started"
-    priority: "low"
-    endpoint: "GET /v3/organizations/{id}/webhooks/"
-    file: null
-    task_doc: null
-    completion: 0
-    
-  delete_webhook:
-    status: "not_started"
-    priority: "low"
-    endpoint: "DELETE /v3/webhooks/{id}/"
-    file: null
-    task_doc: null
-    completion: 0
-
-### Categories & Formats
-  list_categories:
-    status: "not_started"
-    priority: "low"
-    endpoint: "GET /v3/categories/"
-    file: null
-    task_doc: null
-    completion: 0
-    
-  get_category:
-    status: "not_started"
-    priority: "low"
-    endpoint: "GET /v3/categories/{id}/"
-    file: null
-    task_doc: null
     completion: 0
     
   list_formats:
     status: "not_started"
     priority: "low"
-    endpoint: "GET /v3/formats/"
+    endpoint: "GET /formats/"
     file: null
-    task_doc: null
-    completion: 0
-    
-  get_format:
-    status: "not_started"
-    priority: "low"
-    endpoint: "GET /v3/formats/{id}/"
-    file: null
-    task_doc: null
     completion: 0
 
-### Reports
+  # ============================================================================
+  # INVENTORY TIER ENDPOINTS (6)
+  # ============================================================================
+  get_inventory_tier:
+    status: "not_started"
+    priority: "medium"
+    endpoint: "GET /events/{event_id}/inventory_tiers/{inventory_tier_id}/"
+    file: null
+    completion: 0
+    
+  create_inventory_tier:
+    status: "not_started"
+    priority: "medium"
+    endpoint: "POST /events/{event_id}/inventory_tiers/"
+    file: null
+    completion: 0
+    notes: "Maximum 100 tiers per event"
+    
+  create_multiple_inventory_tiers:
+    status: "not_started"
+    priority: "medium"
+    endpoint: "POST /events/{event_id}/inventory_tiers/"
+    file: null
+    completion: 0
+    notes: "Bulk creation endpoint"
+    
+  update_inventory_tier:
+    status: "not_started"
+    priority: "medium"
+    endpoint: "POST /events/{event_id}/inventory_tiers/{inventory_tier_id}/"
+    file: null
+    completion: 0
+    notes: "Supports partial updates"
+    
+  update_multiple_inventory_tiers:
+    status: "not_started"
+    priority: "medium"
+    endpoint: "POST /events/{event_id}/inventory_tiers/"
+    file: null
+    completion: 0
+    notes: "Bulk update endpoint"
+    
+  list_inventory_tiers:
+    status: "not_started"
+    priority: "medium"
+    endpoint: "GET /events/{event_id}/inventory_tiers/"
+    file: null
+    completion: 0
+    
+  delete_inventory_tier:
+    status: "not_started"
+    priority: "low"
+    endpoint: "DELETE /events/{event_id}/inventory_tiers/{inventory_tier_id}/"
+    file: null
+    completion: 0
+
+  # ============================================================================
+  # MEDIA ENDPOINTS (3)
+  # ============================================================================
+  get_media:
+    status: "not_started"
+    priority: "low"
+    endpoint: "GET /media/{media_id}/"
+    file: null
+    completion: 0
+    
+  upload_media:
+    status: "not_started"
+    priority: "medium"
+    endpoint: "POST /media/upload/"
+    file: null
+    completion: 0
+    notes: "Supports image-event-logo, image-organizer-logo, image-structured-content, etc"
+    
+  get_media_upload:
+    status: "not_started"
+    priority: "low"
+    endpoint: "GET /media/upload/"
+    file: null
+    completion: 0
+
+  # ============================================================================
+  # ORDER ENDPOINTS (4)
+  # ============================================================================
+  get_order:
+    status: "not_started"
+    priority: "high"
+    endpoint: "GET /orders/{order_id}/"
+    file: null
+    completion: 0
+    
+  list_orders_by_organization:
+    status: "not_started"
+    priority: "high"
+    endpoint: "GET /organizations/{organization_id}/orders/"
+    file: null
+    completion: 0
+    
+  list_orders_by_event:
+    status: "not_started"
+    priority: "high"
+    endpoint: "GET /events/{event_id}/orders/"
+    file: null
+    completion: 0
+    
+  list_orders_by_user:
+    status: "not_started"
+    priority: "medium"
+    endpoint: "GET /users/{user_id}/orders/"
+    file: null
+    completion: 0
+
+  # ============================================================================
+  # ORGANIZATION MEMBER ENDPOINTS (1)
+  # ============================================================================
+  list_organization_members:
+    status: "not_started"
+    priority: "low"
+    endpoint: "GET /organizations/{organization_id}/members/"
+    file: null
+    completion: 0
+
+  # ============================================================================
+  # ORGANIZATION ROLE ENDPOINTS (1)
+  # ============================================================================
+  list_organization_roles:
+    status: "not_started"
+    priority: "low"
+    endpoint: "GET /organizations/{organization_id}/roles/"
+    file: null
+    completion: 0
+
+  # ============================================================================
+  # ORGANIZATION ENDPOINTS (2)
+  # ============================================================================
+  list_organizations:
+    status: "completed"
+    priority: "high"
+    endpoint: "GET /users/me/organizations/"
+    file: "src/tools/list-organizations.ts"
+    completion: 100
+    notes: "Comprehensive documentation added"
+    
+  list_organizations_by_user:
+    status: "not_started"
+    priority: "medium"
+    endpoint: "GET /users/{user_id}/organizations/"
+    file: null
+    completion: 0
+
+  # ============================================================================
+  # PRICING ENDPOINTS (2)
+  # ============================================================================
+  calculate_item_pricing:
+    status: "not_started"
+    priority: "low"
+    endpoint: "POST /pricing/calculate_price_for_item/"
+    file: null
+    completion: 0
+    notes: "Calculates hypothetical fees for ticket pricing"
+    
+  list_fee_rates:
+    status: "not_started"
+    priority: "low"
+    endpoint: "GET /pricing/fee_rates/"
+    file: null
+    completion: 0
+
+  # ============================================================================
+  # QUESTION ENDPOINTS (8)
+  # ============================================================================
+  list_default_questions:
+    status: "not_started"
+    priority: "medium"
+    endpoint: "GET /events/{event_id}/canned_questions/"
+    file: null
+    completion: 0
+    
+  get_default_question:
+    status: "not_started"
+    priority: "low"
+    endpoint: "GET /events/{event_id}/canned_questions/{question_id}/"
+    file: null
+    completion: 0
+    
+  create_default_question:
+    status: "not_started"
+    priority: "medium"
+    endpoint: "POST /events/{event_id}/canned_questions/"
+    file: null
+    completion: 0
+    
+  update_default_question:
+    status: "not_started"
+    priority: "low"
+    endpoint: "POST /events/{event_id}/canned_questions/{question_id}/"
+    file: null
+    completion: 0
+    
+  delete_default_question:
+    status: "not_started"
+    priority: "low"
+    endpoint: "DELETE /events/{event_id}/canned_questions/{question_id}/"
+    file: null
+    completion: 0
+    
+  list_custom_questions:
+    status: "not_started"
+    priority: "medium"
+    endpoint: "GET /events/{event_id}/questions/"
+    file: null
+    completion: 0
+    
+  create_custom_question:
+    status: "not_started"
+    priority: "medium"
+    endpoint: "POST /events/{event_id}/questions/"
+    file: null
+    completion: 0
+    
+  get_custom_question:
+    status: "not_started"
+    priority: "low"
+    endpoint: "GET /events/{event_id}/questions/{question_id}/"
+    file: null
+    completion: 0
+    
+  delete_custom_question:
+    status: "not_started"
+    priority: "low"
+    endpoint: "DELETE /events/{event_id}/questions/{question_id}/"
+    file: null
+    completion: 0
+
+  # ============================================================================
+  # REPORT ENDPOINTS (2)
+  # ============================================================================
   get_sales_report:
     status: "not_started"
     priority: "low"
-    endpoint: "GET /v3/reports/sales/"
+    endpoint: "GET /reports/sales/"
     file: null
-    task_doc: null
     completion: 0
     
   get_attendee_report:
     status: "not_started"
     priority: "low"
-    endpoint: "GET /v3/reports/attendees/"
+    endpoint: "GET /reports/attendees/"
     file: null
-    task_doc: null
     completion: 0
+
+  # ============================================================================
+  # SEAT MAP ENDPOINTS (2)
+  # ============================================================================
+  list_seat_maps:
+    status: "not_started"
+    priority: "low"
+    endpoint: "GET /organizations/{organization_id}/seatmaps/"
+    file: null
+    completion: 0
+    notes: "Response not paginated yet"
+    
+  create_seat_map:
+    status: "not_started"
+    priority: "low"
+    endpoint: "POST /events/{event_id}/seatmaps/"
+    file: null
+    completion: 0
+    notes: "Creates by copying existing seat map"
+
+  # ============================================================================
+  # STRUCTURED CONTENT ENDPOINTS (3)
+  # ============================================================================
+  get_structured_content_published:
+    status: "not_started"
+    priority: "medium"
+    endpoint: "GET /events/{id}/structured_content/"
+    file: null
+    completion: 0
+    notes: "Returns latest published version"
+    
+  get_structured_content_working:
+    status: "not_started"
+    priority: "medium"
+    endpoint: "GET /events/{id}/structured_content/edit/"
+    file: null
+    completion: 0
+    notes: "Returns latest working version (published or unpublished)"
+    
+  set_structured_content:
+    status: "not_started"
+    priority: "medium"
+    endpoint: "POST /events/{id}/structured_content/{version}/"
+    file: null
+    completion: 0
+    notes: "Supports text, image, video modules. Maximum 100 modules, 5000 versions"
+
+  # ============================================================================
+  # TEXT OVERRIDES ENDPOINTS (2)
+  # ============================================================================
+  get_text_overrides:
+    status: "not_started"
+    priority: "low"
+    endpoint: "GET /organizations/{organization_id}/text_overrides/"
+    file: null
+    completion: 0
+    
+  create_text_overrides:
+    status: "not_started"
+    priority: "low"
+    endpoint: "POST /organizations/{organization_id}/text_overrides/"
+    file: null
+    completion: 0
+
+  # ============================================================================
+  # TICKET BUYER SETTINGS ENDPOINTS (2)
+  # ============================================================================
+  get_ticket_buyer_settings:
+    status: "not_started"
+    priority: "medium"
+    endpoint: "GET /events/{event_id}/ticket_buyer_settings/"
+    file: null
+    completion: 0
+    
+  update_ticket_buyer_settings:
+    status: "not_started"
+    priority: "medium"
+    endpoint: "POST /events/{event_id}/ticket_buyer_settings/"
+    file: null
+    completion: 0
+
+  # ============================================================================
+  # TICKET CLASS ENDPOINTS (4)
+  # ============================================================================
+  get_ticket_class:
+    status: "not_started"
+    priority: "high"
+    endpoint: "GET /events/{event_id}/ticket_classes/{ticket_class_id}/"
+    file: null
+    completion: 0
+    
+  create_ticket_class:
+    status: "completed"
+    priority: "high"
+    endpoint: "POST /events/{event_id}/ticket_classes/"
+    file: "src/tools/create-ticket-class.ts"
+    completion: 100
+    notes: "Comprehensive documentation added. Supports Free/Paid/Donation types"
+    
+  update_ticket_class:
+    status: "not_started"
+    priority: "high"
+    endpoint: "POST /events/{event_id}/ticket_classes/{ticket_class_id}/"
+    file: null
+    completion: 0
+    
+  list_ticket_classes:
+    status: "not_started"
+    priority: "high"
+    endpoint: "GET /events/{event_id}/ticket_classes/"
+    file: null
+    completion: 0
+    
+  list_ticket_classes_for_sale:
+    status: "not_started"
+    priority: "medium"
+    endpoint: "GET /events/{event_id}/ticket_classes/for_sale/"
+    file: null
+    completion: 0
+    notes: "For purchase flow. Supports promo codes and hold IDs"
+
+  # ============================================================================
+  # TICKET GROUP ENDPOINTS (6)
+  # ============================================================================
+  get_ticket_group:
+    status: "not_started"
+    priority: "low"
+    endpoint: "GET /ticket_groups/{ticket_group_id}/"
+    file: null
+    completion: 0
+    
+  create_ticket_group:
+    status: "not_started"
+    priority: "low"
+    endpoint: "POST /organizations/{organization_id}/ticket_groups/"
+    file: null
+    completion: 0
+    notes: "Maximum 300 live ticket groups per organization"
+    
+  update_ticket_group:
+    status: "not_started"
+    priority: "low"
+    endpoint: "POST /ticket_groups/{ticket_group_id}/"
+    file: null
+    completion: 0
+    
+  add_ticket_class_to_groups:
+    status: "not_started"
+    priority: "low"
+    endpoint: "POST /organizations/{organization_id}/events/{event_id}/ticket_classes/{ticket_class_id}/ticket_groups/"
+    file: null
+    completion: 0
+    
+  list_ticket_groups:
+    status: "not_started"
+    priority: "low"
+    endpoint: "GET /organizations/{organization_id}/ticket_groups/"
+    file: null
+    completion: 0
+    
+  delete_ticket_group:
+    status: "not_started"
+    priority: "low"
+    endpoint: "DELETE /ticket_groups/{ticket_group_id}/"
+    file: null
+    completion: 0
+
+  # ============================================================================
+  # USER ENDPOINTS (2)
+  # ============================================================================
+  get_user:
+    status: "not_started"
+    priority: "medium"
+    endpoint: "GET /users/{user_id}/"
+    file: null
+    completion: 0
+    
+  get_current_user:
+    status: "not_started"
+    priority: "medium"
+    endpoint: "GET /users/me/"
+    file: null
+    completion: 0
+
+  # ============================================================================
+  # VENUE ENDPOINTS (4)
+  # ============================================================================
+  get_venue:
+    status: "not_started"
+    priority: "medium"
+    endpoint: "GET /venues/{venue_id}/"
+    file: null
+    completion: 0
+    
+  create_venue:
+    status: "not_started"
+    priority: "medium"
+    endpoint: "POST /organizations/{organization_id}/venues/"
+    file: null
+    completion: 0
+    
+  update_venue:
+    status: "not_started"
+    priority: "low"
+    endpoint: "POST /venues/{venue_id}/"
+    file: null
+    completion: 0
+    
+  list_venues:
+    status: "not_started"
+    priority: "medium"
+    endpoint: "GET /organizations/{organization_id}/venues/"
+    file: null
+    completion: 0
+
+  # ============================================================================
+  # WEBHOOK ENDPOINTS (3)
+  # ============================================================================
+  create_webhook:
+    status: "not_started"
+    priority: "low"
+    endpoint: "POST /organizations/{organization_id}/webhooks/"
+    file: null
+    completion: 0
+    notes: "Supports 14 different webhook actions"
+    
+  list_webhooks:
+    status: "not_started"
+    priority: "low"
+    endpoint: "GET /organizations/{organization_id}/webhooks/"
+    file: null
+    completion: 0
+    
+  delete_webhook:
+    status: "not_started"
+    priority: "low"
+    endpoint: "DELETE /webhooks/{id}/"
+    file: null
+    completion: 0
+
+  # ============================================================================
+  # UTILITY TOOL (1)
+  # ============================================================================
+  get_api_docs:
+    status: "completed"
+    priority: "high"
+    endpoint: "N/A - Returns embedded API blueprint"
+    file: "src/tools/get-api-docs.ts"
+    completion: 100
+    notes: "Returns complete 6933-line API Blueprint documentation"
 
 ## Progress Summary
 
 overall_progress:
-  total_tools_planned: 45
-  tools_completed: 0
-  tools_in_progress: 5
-  tools_not_started: 40
-  completion_percentage: 11
+  total_endpoints: 80
+  completed: 7
+  not_started: 73
+  completion_percentage: 9
 
-phase_progress:
-  phase_1_core_event_management:
-    total: 8
-    completed: 0
-    in_progress: 5
-    not_started: 3
-    completion: 63
-    
-  phase_2_ticketing_orders:
-    total: 7
-    completed: 0
-    in_progress: 0
-    not_started: 7
-    completion: 0
-    
-  phase_3_venue_organization:
-    total: 7
-    completed: 0
-    in_progress: 0
-    not_started: 7
-    completion: 0
-    
-  phase_4_content_media:
-    total: 5
-    completed: 0
-    in_progress: 0
-    not_started: 5
-    completion: 0
-    
-  phase_5_advanced_features:
-    total: 6
-    completed: 0
-    in_progress: 0
-    not_started: 6
-    completion: 0
+by_priority:
+  high: 15
+  medium: 35
+  low: 30
 
-## Current Focus
+by_category:
+  attendee: 3
+  balance: 1
+  categories: 4
+  discounts: 5
+  display_settings: 2
+  event_capacity: 2
+  event_description: 1
+  event_schedule: 1
+  event_series: 2
+  event_teams: 6
+  events: 11
+  formats: 2
+  inventory_tiers: 7
+  media: 3
+  orders: 4
+  organization_members: 1
+  organization_roles: 1
+  organizations: 2
+  pricing: 2
+  questions: 9
+  reports: 2
+  seat_maps: 2
+  structured_content: 3
+  text_overrides: 2
+  ticket_buyer_settings: 2
+  ticket_classes: 5
+  ticket_groups: 6
+  users: 2
+  venues: 4
+  webhooks: 3
+  utility: 1
 
-current_sprint:
-  name: "Event Creation & Management"
-  start_date: "2026-02-08"
-  goals:
-    - "Complete create_event tool with full validation"
-    - "Complete get_event tool with expansion support"
-    - "Complete update_event tool"
-    - "Complete publish_event tool"
-    - "Complete create_ticket_class tool with all parameters"
-    - "Complete list_events tool with filters"
-    - "Complete list_attendees tool with filters"
-  
-  priority_order:
-    1: "create_event"
-    2: "create_ticket_class"
-    3: "publish_event"
-    4: "get_event"
-    5: "update_event"
-    6: "list_events"
-    7: "list_attendees"
-    8: "delete_event"
+## Development Phases
 
-## Next Steps
-
-immediate_tasks:
-  - task: "Enhance create_event validation"
-    priority: "high"
-    estimated_effort: "2 hours"
-    
-  - task: "Add expansion support to get_event"
-    priority: "high"
-    estimated_effort: "1 hour"
-    
-  - task: "Implement update_event tool"
-    priority: "high"
-    estimated_effort: "2 hours"
-    
-  - task: "Implement publish_event tool"
-    priority: "high"
-    estimated_effort: "1 hour"
-    
-  - task: "Enhance create_ticket_class with all parameters"
-    priority: "high"
-    estimated_effort: "2 hours"
-    
-  - task: "Add filter support to list_events"
-    priority: "medium"
-    estimated_effort: "1 hour"
-    
-  - task: "Add filter support to list_attendees"
-    priority: "medium"
-    estimated_effort: "1 hour"
-
-## Testing Status
-
-testing:
-  unit_tests:
-    total: 0
-    passing: 0
-    failing: 0
-    coverage: 0
-    
-  integration_tests:
-    total: 0
-    passing: 0
-    failing: 0
-    coverage: 0
-    
-  e2e_tests:
-    total: 0
-    passing: 0
-    failing: 0
-
-## Documentation Status
-
-documentation:
-  api_reference:
-    status: "complete"
-    files:
-      - "agent/00-overview.md"
-      - "agent/01-authentication.md"
-      - "agent/02-errors.md"
-      - "agent/03-endpoints-reference.md"
-      - "agent/04-data-types.md"
-      - "agent/README.md"
-  
-  task_specifications:
+phases:
+  - name: "Phase 1: Core Event Management (HIGH PRIORITY)"
     status: "in_progress"
-    completed: 6
-    total: 45
-    files:
-      - "agent/tasks/create-event.md"
-      - "agent/tasks/get-event.md"
-      - "agent/tasks/update-event.md"
-      - "agent/tasks/publish-event.md"
-      - "agent/tasks/delete-event.md"
-      - "agent/tasks/list-events.md"
-      - "agent/tasks/list-attendees.md"
-      - "agent/tasks/create-ticket-class.md"
-  
-  user_guide:
+    completion: 55
+    tools:
+      - create_event ✅
+      - get_event ✅
+      - update_event
+      - list_events_by_organization ✅
+      - publish_event
+      - unpublish_event
+      - delete_event
+      - cancel_event
+      - copy_event
+      - create_ticket_class ✅
+      - update_ticket_class
+      - get_ticket_class
+      - list_ticket_classes
+      - list_attendees_by_event ✅
+      - get_attendee
+    
+  - name: "Phase 2: Orders & Discounts (HIGH PRIORITY)"
     status: "not_started"
+    completion: 0
+    tools:
+      - get_order
+      - list_orders_by_organization
+      - list_orders_by_event
+      - list_orders_by_user
+      - create_discount
+      - get_discount
+      - update_discount
+      - list_discounts
+      - delete_discount
     
-  api_examples:
-    status: "not_started"
-
-## Known Issues
-
-issues:
-  - id: 1
-    title: "create_event missing validation for mutually exclusive fields"
-    priority: "high"
-    status: "open"
-    
-  - id: 2
-    title: "get_event doesn't support expansions"
-    priority: "high"
-    status: "open"
-    
-  - id: 3
-    title: "list_events doesn't support filtering"
-    priority: "medium"
-    status: "open"
-    
-  - id: 4
-    title: "create_ticket_class missing optional parameters"
-    priority: "medium"
-    status: "open"
-    
-  - id: 5
-    title: "No pagination helper for list endpoints"
-    priority: "medium"
-    status: "open"
-
-## Dependencies
-
-external_dependencies:
-  - name: "@modelcontextprotocol/sdk"
-    version: "^1.0.4"
-    status: "installed"
-    
-  - name: "axios"
-    version: "^1.7.9"
-    status: "installed"
-    
-  - name: "typescript"
-    version: "^5.7.2"
-    status: "installed"
-
-## Milestones
-
-milestones:
-  - name: "MVP - Basic Event Management"
-    target_date: "2026-02-15"
+  - name: "Phase 3: Venues & Organizations (MEDIUM PRIORITY)"
     status: "in_progress"
-    completion: 60
-    requirements:
-      - "Create event"
-      - "Get event"
-      - "Update event"
-      - "Publish event"
-      - "Create ticket class"
-      - "List events"
+    completion: 33
+    tools:
+      - list_organizations ✅
+      - list_organizations_by_user
+      - list_organization_members
+      - list_organization_roles
+      - create_venue
+      - get_venue
+      - update_venue
+      - list_venues
+      - list_events_by_venue
     
-  - name: "v1.0 - Complete Event Lifecycle"
-    target_date: "2026-03-01"
+  - name: "Phase 4: Content & Media (MEDIUM PRIORITY)"
     status: "not_started"
     completion: 0
-    requirements:
-      - "All Phase 1 tools complete"
-      - "All Phase 2 tools complete"
-      - "Basic testing suite"
-      - "Documentation complete"
+    tools:
+      - upload_media
+      - get_media
+      - get_media_upload
+      - get_structured_content_published
+      - get_structured_content_working
+      - set_structured_content
+      - get_event_description
+      - get_display_settings
+      - update_display_settings
+      - get_ticket_buyer_settings
+      - update_ticket_buyer_settings
     
-  - name: "v2.0 - Full API Coverage"
-    target_date: "2026-04-01"
+  - name: "Phase 5: Advanced Inventory (MEDIUM PRIORITY)"
     status: "not_started"
     completion: 0
-    requirements:
-      - "All 45 tools implemented"
-      - "Comprehensive testing"
-      - "Advanced features"
-      - "Performance optimization"
-
-## Notes
-
-- Focus on Phase 1 (Core Event Management) first
-- Prioritize tools needed for complete event creation workflow
-- Each tool needs comprehensive validation and error handling
-- All tools must follow MCP server patterns
-- Documentation must be kept up to date
+    tools:
+      - create_inventory_tier
+      - get_inventory_tier
+      - update_inventory_tier
+      - list_inventory_tiers
+      - delete_inventory_tier
+      - create_multiple_inventory_tiers
+      - update_multiple_inventory_tiers
+      - get_capacity_tier
+      - update_capacity_tier
+      - list_seat_maps
+      - create_seat_map
+    
+  - name: "Phase 6: Series & Schedules (MEDIUM PRIORITY)"
+    status: "not_started"
+    completion: 0
+    tools:
+      - create_event_schedule
+      - get_event_series
+      - list_events_by_series
+    
+  - name: "Phase 7: Questions & Settings (MEDIUM PRIORITY)"
+    status: "not_started"
+    completion: 0
+    tools:
+      - list_default_questions
+      - get_default_question
+      - create_default_question
+      - update_default_question
+      - delete_default_question
+      - list_custom_questions
+      - create_custom_question
+      - get_custom_question
+      - delete_custom_question
+    
+  - name: "Phase 8: Teams & Groups (LOW PRIORITY)"
+    status: "not_started"
+    completion: 0
+    tools:
+      - list_teams_by_event
+      - get_team
+      - list_attendees_by_team
+      - create_team
+      - verify_team_password
+      - search_teams
+      - get_ticket_group
+      - create_ticket_group
+      - update_ticket_group
+      - add_ticket_class_to_groups
+      - list_ticket_groups
+      - delete_ticket_group
+    
+  - name: "Phase 9: Webhooks & Integrations (LOW PRIORITY)"
+    status: "not_started"
+    completion: 0
+    tools:
+      - create_webhook
+      - list_webhooks
+      - delete_webhook
+      - get_text_overrides
+      - create_text_overrides
+    
+  - name: "Phase 10: Reports & Analytics (LOW PRIORITY)"
+    status: "not_started"
+    completion: 0
+    tools:
+      - get

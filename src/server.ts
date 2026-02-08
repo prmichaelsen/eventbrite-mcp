@@ -10,8 +10,17 @@ import { EventbriteConfig } from './types/eventbrite.js';
 import { ListEventsTool } from './tools/list-events.js';
 import { GetEventTool } from './tools/get-event.js';
 import { CreateEventTool } from './tools/create-event.js';
+import { UpdateEventTool } from './tools/update-event.js';
+import { PublishEventTool } from './tools/publish-event.js';
+import { DeleteEventTool } from './tools/delete-event.js';
 import { ListAttendeesTool } from './tools/list-attendees.js';
+import { GetAttendeeTool } from './tools/get-attendee.js';
 import { CreateTicketClassTool } from './tools/create-ticket-class.js';
+import { GetTicketClassTool } from './tools/get-ticket-class.js';
+import { UpdateTicketClassTool } from './tools/update-ticket-class.js';
+import { ListTicketClassesTool } from './tools/list-ticket-classes.js';
+import { GetOrderTool } from './tools/get-order.js';
+import { ListOrdersTool } from './tools/list-orders.js';
 import { ListOrganizationsTool } from './tools/list-organizations.js';
 import { GetApiDocsTool } from './tools/get-api-docs.js';
 import { logger } from './utils/logger.js';
@@ -70,12 +79,33 @@ class EventbriteMCPServer {
   private registerTools(): void {
     // Register all tools in the registry
     // This makes it easy to add new tools without modifying the handler
+    
+    // Organization tools
     this.tools.set('list_organizations', new ListOrganizationsTool(this.eventbriteClient));
+    
+    // Event tools
     this.tools.set('list_events', new ListEventsTool(this.eventbriteClient));
     this.tools.set('get_event', new GetEventTool(this.eventbriteClient));
     this.tools.set('create_event', new CreateEventTool(this.eventbriteClient));
+    this.tools.set('update_event', new UpdateEventTool(this.eventbriteClient));
+    this.tools.set('publish_event', new PublishEventTool(this.eventbriteClient));
+    this.tools.set('delete_event', new DeleteEventTool(this.eventbriteClient));
+    
+    // Attendee tools
     this.tools.set('list_attendees', new ListAttendeesTool(this.eventbriteClient));
+    this.tools.set('get_attendee', new GetAttendeeTool(this.eventbriteClient));
+    
+    // Ticket class tools
     this.tools.set('create_ticket_class', new CreateTicketClassTool(this.eventbriteClient));
+    this.tools.set('get_ticket_class', new GetTicketClassTool(this.eventbriteClient));
+    this.tools.set('update_ticket_class', new UpdateTicketClassTool(this.eventbriteClient));
+    this.tools.set('list_ticket_classes', new ListTicketClassesTool(this.eventbriteClient));
+    
+    // Order tools
+    this.tools.set('get_order', new GetOrderTool(this.eventbriteClient));
+    this.tools.set('list_orders', new ListOrdersTool(this.eventbriteClient));
+    
+    // API documentation
     this.tools.set('get_api_docs', new GetApiDocsTool());
   }
 
