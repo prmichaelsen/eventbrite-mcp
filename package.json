@@ -16,6 +16,7 @@
     "lint": "eslint src --ext .ts",
     "clean": "rm -rf dist",
     "prepublishOnly": "npm run build",
+    "postinstall": "chmod +x dist/server.js 2>/dev/null || true",
     "publish:public": "npm publish --access public"
   },
   "keywords": [
