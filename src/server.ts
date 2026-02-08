@@ -47,6 +47,17 @@ import { GetMediaTool } from './tools/get-media.js';
 import { UploadMediaTool } from './tools/upload-media.js';
 import { GetStructuredContentTool } from './tools/get-structured-content.js';
 import { SetStructuredContentTool } from './tools/set-structured-content.js';
+import { GetInventoryTierTool } from './tools/get-inventory-tier.js';
+import { CreateInventoryTierTool } from './tools/create-inventory-tier.js';
+import { ListInventoryTiersTool } from './tools/list-inventory-tiers.js';
+import { UpdateInventoryTierTool } from './tools/update-inventory-tier.js';
+import { DeleteInventoryTierTool } from './tools/delete-inventory-tier.js';
+import { GetUserTool } from './tools/get-user.js';
+import { GetOrganizationTool } from './tools/get-organization.js';
+import { ListOrganizationMembersTool } from './tools/list-organization-members.js';
+import { GetDisplaySettingsTool } from './tools/get-display-settings.js';
+import { UpdateDisplaySettingsTool } from './tools/update-display-settings.js';
+import { GetEventDescriptionTool } from './tools/get-event-description.js';
 import { GetApiDocsTool } from './tools/get-api-docs.js';
 import { logger } from './utils/logger.js';
 import { isMCPErrorResponse, formatErrorForDisplay } from './utils/mcp-error-handler.js';
@@ -167,6 +178,27 @@ class EventbriteMCPServer {
     // Structured content tools
     this.tools.set('get_structured_content', new GetStructuredContentTool(this.eventbriteClient));
     this.tools.set('set_structured_content', new SetStructuredContentTool(this.eventbriteClient));
+    
+    // Inventory tier tools
+    this.tools.set('get_inventory_tier', new GetInventoryTierTool(this.eventbriteClient));
+    this.tools.set('create_inventory_tier', new CreateInventoryTierTool(this.eventbriteClient));
+    this.tools.set('list_inventory_tiers', new ListInventoryTiersTool(this.eventbriteClient));
+    this.tools.set('update_inventory_tier', new UpdateInventoryTierTool(this.eventbriteClient));
+    this.tools.set('delete_inventory_tier', new DeleteInventoryTierTool(this.eventbriteClient));
+    
+    // User tools
+    this.tools.set('get_user', new GetUserTool(this.eventbriteClient));
+    
+    // Organization tools (additional)
+    this.tools.set('get_organization', new GetOrganizationTool(this.eventbriteClient));
+    this.tools.set('list_organization_members', new ListOrganizationMembersTool(this.eventbriteClient));
+    
+    // Display settings tools
+    this.tools.set('get_display_settings', new GetDisplaySettingsTool(this.eventbriteClient));
+    this.tools.set('update_display_settings', new UpdateDisplaySettingsTool(this.eventbriteClient));
+    
+    // Event description tools
+    this.tools.set('get_event_description', new GetEventDescriptionTool(this.eventbriteClient));
     
     // API documentation
     this.tools.set('get_api_docs', new GetApiDocsTool());
