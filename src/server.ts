@@ -12,6 +12,7 @@ import { GetEventTool } from './tools/get-event.js';
 import { CreateEventTool } from './tools/create-event.js';
 import { ListAttendeesTool } from './tools/list-attendees.js';
 import { CreateTicketClassTool } from './tools/create-ticket-class.js';
+import { ListOrganizationsTool } from './tools/list-organizations.js';
 import { logger } from './utils/logger.js';
 import { isMCPErrorResponse, formatErrorForDisplay } from './utils/mcp-error-handler.js';
 
@@ -68,6 +69,7 @@ class EventbriteMCPServer {
   private registerTools(): void {
     // Register all tools in the registry
     // This makes it easy to add new tools without modifying the handler
+    this.tools.set('list_organizations', new ListOrganizationsTool(this.eventbriteClient));
     this.tools.set('list_events', new ListEventsTool(this.eventbriteClient));
     this.tools.set('get_event', new GetEventTool(this.eventbriteClient));
     this.tools.set('create_event', new CreateEventTool(this.eventbriteClient));
