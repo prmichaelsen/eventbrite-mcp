@@ -2,6 +2,8 @@
 
 An MCP (Model Context Protocol) server that provides event management and ticketing capabilities through the Eventbrite API.
 
+> Note: Not every tool in this repository has been tested. Ticket creation workflow is supported. If other tools fail, please create an issue for that tool.
+
 ## Features
 
 - **Event Management**: List, create, and retrieve event details
