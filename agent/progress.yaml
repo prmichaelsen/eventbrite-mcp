@@ -11,8 +11,8 @@ project:
   repository: "eventbrite-mcp"
   base_url: "https://www.eventbriteapi.com/v3"
   total_endpoints: 80
-  implemented: 20
-  completion_percentage: 25
+  implemented: 34
+  completion_percentage: 43
 
 ## Tool Status - ALL NON-DEPRECATED ENDPOINTS
 

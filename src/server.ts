@@ -12,7 +12,10 @@ import { GetEventTool } from './tools/get-event.js';
 import { CreateEventTool } from './tools/create-event.js';
 import { UpdateEventTool } from './tools/update-event.js';
 import { PublishEventTool } from './tools/publish-event.js';
+import { UnpublishEventTool } from './tools/unpublish-event.js';
 import { DeleteEventTool } from './tools/delete-event.js';
+import { CancelEventTool } from './tools/cancel-event.js';
+import { CopyEventTool } from './tools/copy-event.js';
 import { ListAttendeesTool } from './tools/list-attendees.js';
 import { GetAttendeeTool } from './tools/get-attendee.js';
 import { CreateTicketClassTool } from './tools/create-ticket-class.js';
@@ -22,6 +25,28 @@ import { ListTicketClassesTool } from './tools/list-ticket-classes.js';
 import { GetOrderTool } from './tools/get-order.js';
 import { ListOrdersTool } from './tools/list-orders.js';
 import { ListOrganizationsTool } from './tools/list-organizations.js';
+import { GetCategoryTool } from './tools/get-category.js';
+import { ListCategoriesTool } from './tools/list-categories.js';
+import { GetSubcategoryTool } from './tools/get-subcategory.js';
+import { ListSubcategoriesTool } from './tools/list-subcategories.js';
+import { GetFormatTool } from './tools/get-format.js';
+import { ListFormatsTool } from './tools/list-formats.js';
+import { GetDiscountTool } from './tools/get-discount.js';
+import { CreateDiscountTool } from './tools/create-discount.js';
+import { UpdateDiscountTool } from './tools/update-discount.js';
+import { ListDiscountsTool } from './tools/list-discounts.js';
+import { DeleteDiscountTool } from './tools/delete-discount.js';
+import { GetVenueTool } from './tools/get-venue.js';
+import { CreateVenueTool } from './tools/create-venue.js';
+import { UpdateVenueTool } from './tools/update-venue.js';
+import { ListVenuesTool } from './tools/list-venues.js';
+import { CreateWebhookTool } from './tools/create-webhook.js';
+import { ListWebhooksTool } from './tools/list-webhooks.js';
+import { DeleteWebhookTool } from './tools/delete-webhook.js';
+import { GetMediaTool } from './tools/get-media.js';
+import { UploadMediaTool } from './tools/upload-media.js';
+import { GetStructuredContentTool } from './tools/get-structured-content.js';
+import { SetStructuredContentTool } from './tools/set-structured-content.js';
 import { GetApiDocsTool } from './tools/get-api-docs.js';
 import { logger } from './utils/logger.js';
 import { isMCPErrorResponse, formatErrorForDisplay } from './utils/mcp-error-handler.js';
@@ -78,7 +103,6 @@ class EventbriteMCPServer {
 
   private registerTools(): void {
     // Register all tools in the registry
-    // This makes it easy to add new tools without modifying the handler
     
     // Organization tools
     this.tools.set('list_organizations', new ListOrganizationsTool(this.eventbriteClient));
@@ -89,7 +113,10 @@ class EventbriteMCPServer {
     this.tools.set('create_event', new CreateEventTool(this.eventbriteClient));
     this.tools.set('update_event', new UpdateEventTool(this.eventbriteClient));
     this.tools.set('publish_event', new PublishEventTool(this.eventbriteClient));
+    this.tools.set('unpublish_event', new UnpublishEventTool(this.eventbriteClient));
     this.tools.set('delete_event', new DeleteEventTool(this.eventbriteClient));
+    this.tools.set('cancel_event', new CancelEventTool(this.eventbriteClient));
+    this.tools.set('copy_event', new CopyEventTool(this.eventbriteClient));
     
     // Attendee tools
     this.tools.set('list_attendees', new ListAttendeesTool(this.eventbriteClient));
@@ -104,6 +131,42 @@ class EventbriteMCPServer {
     // Order tools
     this.tools.set('get_order', new GetOrderTool(this.eventbriteClient));
     this.tools.set('list_orders', new ListOrdersTool(this.eventbriteClient));
+    
+    // Category tools
+    this.tools.set('get_category', new GetCategoryTool(this.eventbriteClient));
+    this.tools.set('list_categories', new ListCategoriesTool(this.eventbriteClient));
+    this.tools.set('get_subcategory', new GetSubcategoryTool(this.eventbriteClient));
+    this.tools.set('list_subcategories', new ListSubcategoriesTool(this.eventbriteClient));
+    
+    // Format tools
+    this.tools.set('get_format', new GetFormatTool(this.eventbriteClient));
+    this.tools.set('list_formats', new ListFormatsTool(this.eventbriteClient));
+    
+    // Discount tools
+    this.tools.set('get_discount', new GetDiscountTool(this.eventbriteClient));
+    this.tools.set('create_discount', new CreateDiscountTool(this.eventbriteClient));
+    this.tools.set('update_discount', new UpdateDiscountTool(this.eventbriteClient));
+    this.tools.set('list_discounts', new ListDiscountsTool(this.eventbriteClient));
+    this.tools.set('delete_discount', new DeleteDiscountTool(this.eventbriteClient));
+    
+    // Venue tools
+    this.tools.set('get_venue', new GetVenueTool(this.eventbriteClient));
+    this.tools.set('create_venue', new CreateVenueTool(this.eventbriteClient));
+    this.tools.set('update_venue', new UpdateVenueTool(this.eventbriteClient));
+    this.tools.set('list_venues', new ListVenuesTool(this.eventbriteClient));
+    
+    // Webhook tools
+    this.tools.set('create_webhook', new CreateWebhookTool(this.eventbriteClient));
+    this.tools.set('list_webhooks', new ListWebhooksTool(this.eventbriteClient));
+    this.tools.set('delete_webhook', new DeleteWebhookTool(this.eventbriteClient));
+    
+    // Media tools
+    this.tools.set('get_media', new GetMediaTool(this.eventbriteClient));
+    this.tools.set('upload_media', new UploadMediaTool(this.eventbriteClient));
+    
+    // Structured content tools
+    this.tools.set('get_structured_content', new GetStructuredContentTool(this.eventbriteClient));
+    this.tools.set('set_structured_content', new SetStructuredContentTool(this.eventbriteClient));
     
     // API documentation
     this.tools.set('get_api_docs', new GetApiDocsTool());
