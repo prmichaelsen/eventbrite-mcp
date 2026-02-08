@@ -27,6 +27,14 @@
   ],
   "author": "Patrick Michaelsen",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/prmichaelsen/eventbrite-mcp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/prmichaelsen/eventbrite-mcp/issues"
+  },
+  "homepage": "https://github.com/prmichaelsen/eventbrite-mcp#readme",
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.0.0",
     "dotenv": "^16.3.1"

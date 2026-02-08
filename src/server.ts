@@ -20,14 +20,16 @@ import { isMCPErrorResponse, formatErrorForDisplay } from './utils/mcp-error-han
 // Load environment variables
 config();
 
+// Tool interface for type safety
+interface MCPTool {
+  getToolDefinition(): any;
+  execute(args: any): Promise<any>;
+}
+
 class EventbriteMCPServer {
   private server: Server;
   private eventbriteClient: EventbriteClient;
-  private listEventsTool: ListEventsTool;
-  private getEventTool: GetEventTool;
-  private createEventTool: CreateEventTool;
-  private listAttendeesTool: ListAttendeesTool;
-  private createTicketClassTool: CreateTicketClassTool;
+  private tools: Map<string, MCPTool>;
 
   constructor() {
     // Initialize server
@@ -57,60 +59,49 @@ class EventbriteMCPServer {
     };
 
     this.eventbriteClient = new EventbriteClient(eventbriteConfig);
-    this.listEventsTool = new ListEventsTool(this.eventbriteClient);
-    this.getEventTool = new GetEventTool(this.eventbriteClient);
-    this.createEventTool = new CreateEventTool(this.eventbriteClient);
-    this.listAttendeesTool = new ListAttendeesTool(this.eventbriteClient);
-    this.createTicketClassTool = new CreateTicketClassTool(this.eventbriteClient);
+    
+    // Initialize tool registry
+    this.tools = new Map();
+    this.registerTools();
 
     this.setupHandlers();
+  }
+
+  private registerTools(): void {
+    // Register all tools in the registry
+    // This makes it easy to add new tools without modifying the handler
+    this.tools.set('list_events', new ListEventsTool(this.eventbriteClient));
+    this.tools.set('get_event', new GetEventTool(this.eventbriteClient));
+    this.tools.set('create_event', new CreateEventTool(this.eventbriteClient));
+    this.tools.set('list_attendees', new ListAttendeesTool(this.eventbriteClient));
+    this.tools.set('create_ticket_class', new CreateTicketClassTool(this.eventbriteClient));
   }
 
   private setupHandlers(): void {
     // List available tools
     this.server.setRequestHandler(ListToolsRequestSchema, async () => {
+      const toolDefinitions = Array.from(this.tools.values()).map(tool => 
+        tool.getToolDefinition()
+      );
+      
       return {
-        tools: [
-          this.listEventsTool.getToolDefinition(),
-          this.getEventTool.getToolDefinition(),
-          this.createEventTool.getToolDefinition(),
-          this.listAttendeesTool.getToolDefinition(),
-          this.createTicketClassTool.getToolDefinition()
-        ],
+        tools: toolDefinitions,
       };
     });
 
-    // Handle tool calls
+    // Handle tool calls with automatic error handling
     this.server.setRequestHandler(CallToolRequestSchema, async (request) => {
       const { name, arguments: args } = request.params;
 
       try {
-        let result: any;
-        
-        switch (name) {
-          case 'list_events':
-            result = await this.listEventsTool.execute(args as any);
-            break;
-
-          case 'get_event':
-            result = await this.getEventTool.execute(args as any);
-            break;
-
-          case 'create_event':
-            result = await this.createEventTool.execute(args as any);
-            break;
-
-          case 'list_attendees':
-            result = await this.listAttendeesTool.execute(args as any);
-            break;
-
-          case 'create_ticket_class':
-            result = await this.createTicketClassTool.execute(args as any);
-            break;
-
-          default:
-            throw new Error(`Unknown tool: ${name}`);
+        // Get tool from registry
+        const tool = this.tools.get(name);
+        if (!tool) {
+          throw new Error(`Unknown tool: ${name}`);
         }
+
+        // Execute tool
+        const result = await tool.execute(args as any);
 
         // Check if the result is an MCP error response
         if (isMCPErrorResponse(result)) {
