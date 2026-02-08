@@ -18,12 +18,6 @@ An MCP (Model Context Protocol) server that provides event management and ticket
 npx @prmichaelsen/eventbrite-mcp
 ```
 
-### Using npm
-
-```bash
-npm install -g @prmichaelsen/eventbrite-mcp
-```
-
 ## Configuration
 
 ### Environment Variables
@@ -51,7 +45,7 @@ EVENTBRITE_RETRIES=3                                  # Number of retry attempts
 
 ### MCP Client Configuration
 
-Add to your MCP client configuration (e.g., Claude Desktop):
+Add to your MCP client configuration (e.g., Claude Desktop, Kilo Code):
 
 ```json
 {
@@ -59,21 +53,6 @@ Add to your MCP client configuration (e.g., Claude Desktop):
     "eventbrite": {
       "command": "npx",
       "args": ["-y", "@prmichaelsen/eventbrite-mcp"],
-      "env": {
-        "EVENTBRITE_API_TOKEN": "your_eventbrite_api_token"
-      }
-    }
-  }
-}
-```
-
-Or if installed globally:
-
-```json
-{
-  "mcpServers": {
-    "eventbrite": {
-      "command": "eventbrite-mcp",
       "env": {
         "EVENTBRITE_API_TOKEN": "your_eventbrite_api_token"
       }
