@@ -58,6 +58,15 @@ import { ListOrganizationMembersTool } from './tools/list-organization-members.j
 import { GetDisplaySettingsTool } from './tools/get-display-settings.js';
 import { UpdateDisplaySettingsTool } from './tools/update-display-settings.js';
 import { GetEventDescriptionTool } from './tools/get-event-description.js';
+import { GetSalesReportTool } from './tools/get-sales-report.js';
+import { GetAttendeeReportTool } from './tools/get-attendee-report.js';
+import { GetCapacityTierTool } from './tools/get-capacity-tier.js';
+import { UpdateCapacityTierTool } from './tools/update-capacity-tier.js';
+import { GetEventSeriesTool } from './tools/get-event-series.js';
+import { ListEventsBySeriesTool } from './tools/list-events-by-series.js';
+import { CreateEventScheduleTool } from './tools/create-event-schedule.js';
+import { ListSeatMapsTool } from './tools/list-seat-maps.js';
+import { CreateSeatMapTool } from './tools/create-seat-map.js';
 import { GetApiDocsTool } from './tools/get-api-docs.js';
 import { logger } from './utils/logger.js';
 import { isMCPErrorResponse, formatErrorForDisplay } from './utils/mcp-error-handler.js';
@@ -199,6 +208,23 @@ class EventbriteMCPServer {
     
     // Event description tools
     this.tools.set('get_event_description', new GetEventDescriptionTool(this.eventbriteClient));
+    
+    // Report tools
+    this.tools.set('get_sales_report', new GetSalesReportTool(this.eventbriteClient));
+    this.tools.set('get_attendee_report', new GetAttendeeReportTool(this.eventbriteClient));
+    
+    // Capacity tier tools
+    this.tools.set('get_capacity_tier', new GetCapacityTierTool(this.eventbriteClient));
+    this.tools.set('update_capacity_tier', new UpdateCapacityTierTool(this.eventbriteClient));
+    
+    // Event series tools
+    this.tools.set('get_event_series', new GetEventSeriesTool(this.eventbriteClient));
+    this.tools.set('list_events_by_series', new ListEventsBySeriesTool(this.eventbriteClient));
+    this.tools.set('create_event_schedule', new CreateEventScheduleTool(this.eventbriteClient));
+    
+    // Seat map tools
+    this.tools.set('list_seat_maps', new ListSeatMapsTool(this.eventbriteClient));
+    this.tools.set('create_seat_map', new CreateSeatMapTool(this.eventbriteClient));
     
     // API documentation
     this.tools.set('get_api_docs', new GetApiDocsTool());
