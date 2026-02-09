@@ -78,6 +78,11 @@ import { ListCustomQuestionsTool } from './tools/list-custom-questions.js';
 import { CreateCustomQuestionTool } from './tools/create-custom-question.js';
 import { GetCustomQuestionTool } from './tools/get-custom-question.js';
 import { DeleteCustomQuestionTool } from './tools/delete-custom-question.js';
+import { GetTextOverridesTool } from './tools/get-text-overrides.js';
+import { CreateTextOverridesTool } from './tools/create-text-overrides.js';
+import { CalculateItemPricingTool } from './tools/calculate-item-pricing.js';
+import { ListFeeRatesTool } from './tools/list-fee-rates.js';
+import { ListOrganizationRolesTool } from './tools/list-organization-roles.js';
 import { GetApiDocsTool } from './tools/get-api-docs.js';
 import { logger } from './utils/logger.js';
 import { isMCPErrorResponse, formatErrorForDisplay } from './utils/mcp-error-handler.js';
@@ -253,6 +258,17 @@ class EventbriteMCPServer {
     this.tools.set('create_custom_question', new CreateCustomQuestionTool(this.eventbriteClient));
     this.tools.set('get_custom_question', new GetCustomQuestionTool(this.eventbriteClient));
     this.tools.set('delete_custom_question', new DeleteCustomQuestionTool(this.eventbriteClient));
+    
+    // Text override tools
+    this.tools.set('get_text_overrides', new GetTextOverridesTool(this.eventbriteClient));
+    this.tools.set('create_text_overrides', new CreateTextOverridesTool(this.eventbriteClient));
+    
+    // Pricing tools
+    this.tools.set('calculate_item_pricing', new CalculateItemPricingTool(this.eventbriteClient));
+    this.tools.set('list_fee_rates', new ListFeeRatesTool(this.eventbriteClient));
+    
+    // Organization role tools
+    this.tools.set('list_organization_roles', new ListOrganizationRolesTool(this.eventbriteClient));
     
     // API documentation
     this.tools.set('get_api_docs', new GetApiDocsTool());
