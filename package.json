@@ -2,8 +2,16 @@
   "name": "@prmichaelsen/eventbrite-mcp",
   "version": "0.2.8",
   "description": "Eventbrite MCP server providing event management and ticketing capabilities",
-  "main": "dist/server.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./server": "./dist/server.js"
+  },
   "bin": {
     "eventbrite-mcp": "./dist/server.js"
   },

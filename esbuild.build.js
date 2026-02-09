@@ -1,6 +1,6 @@
 import * as esbuild from 'esbuild';
 
-const buildOptions = {
+const serverBuildOptions = {
   entryPoints: ['src/server.ts'],
   bundle: true,
   outdir: 'dist',
@@ -20,10 +20,28 @@ const buildOptions = {
   }
 };
 
+const indexBuildOptions = {
+  entryPoints: ['src/index.ts'],
+  bundle: true,
+  outdir: 'dist',
+  platform: 'node',
+  target: 'node18',
+  format: 'esm',
+  sourcemap: true,
+  external: [
+    '@modelcontextprotocol/sdk',
+    'dotenv'
+  ],
+  logLevel: 'info',
+  minify: false,
+  keepNames: true
+};
+
 async function build() {
   try {
     console.log('Building with esbuild...');
-    await esbuild.build(buildOptions);
+    await esbuild.build(serverBuildOptions);
+    await esbuild.build(indexBuildOptions);
     console.log('Build completed successfully!');
   } catch (error) {
     console.error('Build failed:', error);

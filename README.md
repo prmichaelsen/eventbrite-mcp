@@ -190,6 +190,60 @@ For a complete list of all 42 supported tools, please see [`./src/tools`](./src/
 - User (1 tool)
 - API Documentation (1 tool)
 
+## Using as a Library
+
+### Option 1: MCP-Auth Integration (Multi-Tenant)
+
+For multi-tenant applications using [@prmichaelsen/mcp-auth](https://github.com/prmichaelsen/mcp-auth):
+
+```typescript
+import { createServer } from '@prmichaelsen/eventbrite-mcp';
+import { wrapServer } from '@prmichaelsen/mcp-auth';
+
+const wrappedServer = wrapServer({
+  serverFactory: (accessToken: string) => createServer(accessToken),
+  authProvider: new JWTAuthProvider({ ... }),
+  tokenResolver: new DatabaseTokenResolver({ ... }),
+  resourceType: 'eventbrite',
+  transport: { type: 'sse', port: 3000 }
+});
+
+await wrappedServer.start();
+```
+
+### Option 2: Individual Tool Usage (OpenAI Agents)
+
+Import and use individual tools in your applications:
+
+```typescript
+import { CreateEventTool, EventbriteClient, EventbriteConfig } from '@prmichaelsen/eventbrite-mcp';
+
+// Configure the Eventbrite client
+const config: EventbriteConfig = {
+  apiToken: process.env.EVENTBRITE_API_TOKEN!, // Required
+  apiUrl: 'https://www.eventbriteapi.com/v3',
+  timeout: 30000,
+  retries: 3
+};
+
+const client = new EventbriteClient(config);
+const createEventTool = new CreateEventTool(client);
+
+// Use the tool
+const result = await createEventTool.execute({
+  name: "My Event",
+  startTime: "2024-12-31T09:00:00",
+  endTime: "2024-12-31T17:00:00",
+  timezone: "America/New_York",
+  currency: "USD"
+});
+```
+
+**Environment Variables Required:**
+- `EVENTBRITE_API_TOKEN`: Your Eventbrite API token (required)
+
+All 57 tool classes and the `createServer` factory function are exported. See [`src/index.ts`](src/index.ts) for the complete list of exports.
+
 ## Development
 
 ### Setup
