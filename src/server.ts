@@ -67,6 +67,17 @@ import { ListEventsBySeriesTool } from './tools/list-events-by-series.js';
 import { CreateEventScheduleTool } from './tools/create-event-schedule.js';
 import { ListSeatMapsTool } from './tools/list-seat-maps.js';
 import { CreateSeatMapTool } from './tools/create-seat-map.js';
+import { GetTicketBuyerSettingsTool } from './tools/get-ticket-buyer-settings.js';
+import { UpdateTicketBuyerSettingsTool } from './tools/update-ticket-buyer-settings.js';
+import { ListDefaultQuestionsTool } from './tools/list-default-questions.js';
+import { GetDefaultQuestionTool } from './tools/get-default-question.js';
+import { CreateDefaultQuestionTool } from './tools/create-default-question.js';
+import { UpdateDefaultQuestionTool } from './tools/update-default-question.js';
+import { DeleteDefaultQuestionTool } from './tools/delete-default-question.js';
+import { ListCustomQuestionsTool } from './tools/list-custom-questions.js';
+import { CreateCustomQuestionTool } from './tools/create-custom-question.js';
+import { GetCustomQuestionTool } from './tools/get-custom-question.js';
+import { DeleteCustomQuestionTool } from './tools/delete-custom-question.js';
 import { GetApiDocsTool } from './tools/get-api-docs.js';
 import { logger } from './utils/logger.js';
 import { isMCPErrorResponse, formatErrorForDisplay } from './utils/mcp-error-handler.js';
@@ -225,6 +236,23 @@ class EventbriteMCPServer {
     // Seat map tools
     this.tools.set('list_seat_maps', new ListSeatMapsTool(this.eventbriteClient));
     this.tools.set('create_seat_map', new CreateSeatMapTool(this.eventbriteClient));
+    
+    // Ticket buyer settings tools
+    this.tools.set('get_ticket_buyer_settings', new GetTicketBuyerSettingsTool(this.eventbriteClient));
+    this.tools.set('update_ticket_buyer_settings', new UpdateTicketBuyerSettingsTool(this.eventbriteClient));
+    
+    // Default question tools
+    this.tools.set('list_default_questions', new ListDefaultQuestionsTool(this.eventbriteClient));
+    this.tools.set('get_default_question', new GetDefaultQuestionTool(this.eventbriteClient));
+    this.tools.set('create_default_question', new CreateDefaultQuestionTool(this.eventbriteClient));
+    this.tools.set('update_default_question', new UpdateDefaultQuestionTool(this.eventbriteClient));
+    this.tools.set('delete_default_question', new DeleteDefaultQuestionTool(this.eventbriteClient));
+    
+    // Custom question tools
+    this.tools.set('list_custom_questions', new ListCustomQuestionsTool(this.eventbriteClient));
+    this.tools.set('create_custom_question', new CreateCustomQuestionTool(this.eventbriteClient));
+    this.tools.set('get_custom_question', new GetCustomQuestionTool(this.eventbriteClient));
+    this.tools.set('delete_custom_question', new DeleteCustomQuestionTool(this.eventbriteClient));
     
     // API documentation
     this.tools.set('get_api_docs', new GetApiDocsTool());
