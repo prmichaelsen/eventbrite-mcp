@@ -10,7 +10,15 @@
       "import": "./dist/index.js",
       "types": "./dist/index.d.ts"
     },
-    "./server": "./dist/server.js"
+    "./factory": {
+      "import": "./dist/factory.js",
+      "types": "./dist/factory.d.ts"
+    },
+    "./server": "./dist/server.js",
+    "./client": {
+      "import": "./dist/eventbrite/client.js",
+      "types": "./dist/eventbrite/client.d.ts"
+    }
   },
   "bin": {
     "eventbrite-mcp": "./dist/server.js"

@@ -84,6 +84,9 @@ export { ListFeeRatesTool } from './tools/list-fee-rates.js';
 export { ListOrganizationRolesTool } from './tools/list-organization-roles.js';
 export { GetApiDocsTool } from './tools/get-api-docs.js';
 
+// Export factory function for multi-tenant usage
+export { createEventbriteServer } from './factory.js';
+
 // Export EventbriteClient for direct API access
 export { EventbriteClient } from './eventbrite/client.js';
 export type { EventbriteConfig } from './types/eventbrite.js';

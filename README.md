@@ -197,15 +197,20 @@ For a complete list of all 42 supported tools, please see [`./src/tools`](./src/
 For multi-tenant applications using [@prmichaelsen/mcp-auth](https://github.com/prmichaelsen/mcp-auth):
 
 ```typescript
-import { createServer } from '@prmichaelsen/eventbrite-mcp';
+import { createEventbriteServer } from '@prmichaelsen/eventbrite-mcp/factory';
 import { wrapServer } from '@prmichaelsen/mcp-auth';
 
 const wrappedServer = wrapServer({
-  serverFactory: (accessToken: string) => createServer(accessToken),
-  authProvider: new JWTAuthProvider({ ... }),
-  tokenResolver: new DatabaseTokenResolver({ ... }),
+  serverFactory: (accessToken: string, userId: string) => {
+    return createEventbriteServer(accessToken, userId);
+  },
+  authProvider: new FirebaseAuthProvider({ projectId: 'your-project' }),
+  tokenResolver: new PlatformTokenResolver({
+    platformUrl: 'https://your-platform.com',
+    serviceToken: process.env.PLATFORM_SERVICE_TOKEN
+  }),
   resourceType: 'eventbrite',
-  transport: { type: 'sse', port: 3000 }
+  transport: { type: 'sse', port: 8080, basePath: '/mcp' }
 });
 
 await wrappedServer.start();

@@ -97,12 +97,17 @@ interface MCPTool {
 /**
  * Factory function that creates an Eventbrite MCP server instance
  * Compatible with @prmichaelsen/mcp-auth for multi-tenant usage
- * 
+ *
  * @param accessToken - Eventbrite API access token
+ * @param userId - Optional user ID for tracking (required for multi-tenant)
  * @param config - Optional additional configuration
  * @returns Configured MCP Server instance
  */
-export function createServer(accessToken: string, config?: Partial<EventbriteConfig>): Server {
+export function createEventbriteServer(
+  accessToken: string,
+  userId?: string,
+  config?: Partial<EventbriteConfig>
+): Server {
   const server = new Server(
     {
       name: 'eventbrite-mcp-server',
