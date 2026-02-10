@@ -1,6 +1,6 @@
 {
   "name": "@prmichaelsen/eventbrite-mcp",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Eventbrite MCP server providing event management and ticketing capabilities",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
