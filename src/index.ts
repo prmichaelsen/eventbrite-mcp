@@ -1,6 +1,3 @@
-// Export factory function for mcp-auth integration
-export { createServer } from './factory.js';
-
 // Export all tool classes for use in other contexts (e.g., OpenAI chat agents)
 export { ListOrganizationsTool } from './tools/list-organizations.js';
 export { ListEventsTool } from './tools/list-events.js';

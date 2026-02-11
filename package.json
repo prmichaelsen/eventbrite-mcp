@@ -24,7 +24,9 @@
     "eventbrite-mcp": "./dist/server.js"
   },
   "scripts": {
-    "build": "node esbuild.build.js",
+    "build": "npm run clean && npm run build:types && npm run build:js",
+    "build:types": "tsc --emitDeclarationOnly",
+    "build:js": "node esbuild.build.js",
     "watch": "node esbuild.watch.js",
     "start": "node dist/server.js",
     "test": "vitest",
